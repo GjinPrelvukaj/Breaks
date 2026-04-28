@@ -5,7 +5,9 @@ A small Pomodoro app that lives in your Mac menu bar.
 I built Breaks because every other timer either nagged me too much, hid in a Dock icon I never wanted, or treated breaks as an afterthought. This one is the opposite. It's quiet, it remembers what you were focused on, and it actually cares whether the break was any good.
 
 <p align="center">
-  <img src="docs/screenshot-timer.png" alt="Breaks popover open from the menu bar" width="420">
+  <img src="docs/screenshot-timer.png" alt="Timer popover" width="280">
+  <img src="docs/screenshot-stats.png" alt="Streaks and stats" width="280">
+  <img src="docs/screenshot-settings.png" alt="Settings panel" width="280">
 </p>
 
 ![Platform](https://img.shields.io/badge/platform-macOS%2013%2B-blue)
@@ -23,9 +25,17 @@ I built Breaks because every other timer either nagged me too much, hid in a Doc
 - Survives sleep. Close the lid, come back, the timer is still where it should be. It's driven by an `endDate` plus `NSWorkspace` sleep/wake notifications, so it doesn't drift.
 - Sandboxed and small. No analytics, no account, nothing leaves your machine. State lives in `UserDefaults`.
 
-## Install and run
+## Install
 
-There's no release artifact yet, so clone and build:
+Grab the latest build from [Releases](https://github.com/GjinPrelvukaj/Breaks/releases/latest):
+
+1. Download `Breaks-vX.Y-macOS.zip`
+2. Unzip and drag `Breaks.app` into `/Applications`
+3. First launch: right-click the app, then **Open**. The build is ad-hoc signed, not notarized, so Gatekeeper needs the manual override the first time.
+
+Apple Silicon, macOS 13.0 or later.
+
+## Build from source
 
 ```sh
 git clone git@gjinprelvukaj.github.com:GjinPrelvukaj/Breaks.git
@@ -39,7 +49,7 @@ Then Cmd+R in Xcode. Or from the CLI:
 xcodebuild -project Breaks.xcodeproj -scheme Breaks -configuration Debug build
 ```
 
-Requires macOS 13.0 or later and a recent Xcode.
+Requires a recent Xcode.
 
 ## Reset state
 
