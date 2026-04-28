@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Footer from "../components/Footer.astro";
+import Prose from "../components/Prose.astro";
+---
+
+<Layout
+  title="Cookies — Breaks"
+  description="This site uses no cookies. The app uses none either."
+  canonicalPath="/cookies"
+>
+  <SiteHeader />
+  <main>
+    <Prose
+      eyebrow="Cookies"
+      title="None. Not a single one."
+      updated="28 April 2026"
+    >
+      <p>
+        This website does not set cookies. Not first-party, not third-party,
+        not for analytics, not for sessions, not for anything. There's nothing
+        to consent to, so no banner appears.
+      </p>
+
+      <h2>The longer answer</h2>
+      <p>
+        The site is a static page hosted on GitHub Pages. It loads HTML, CSS,
+        a small SVG favicon, and self-hosted fonts. That's all. No JavaScript
+        runs in your browser beyond a tiny inline structured-data script.
+      </p>
+      <p>
+        Local storage, session storage, IndexedDB, service workers, and similar
+        storage mechanisms are also not used.
+      </p>
+
+      <h2>What about the app?</h2>
+      <p>
+        The Breaks app doesn't use cookies either. It stores its own settings
+        in macOS <code>UserDefaults</code> on your machine. Nothing crosses the
+        network. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/privacy/`}>privacy page</a> for the full detail.
+      </p>
+
+      <h2>External links</h2>
+      <p>
+        If you click through to GitHub, those pages may set their own cookies
+        per
+        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" target="_blank">GitHub's privacy statement</a>.
+        We don't control those.
+      </p>
+    </Prose>
+  </main>
+  <Footer />
+</Layout>

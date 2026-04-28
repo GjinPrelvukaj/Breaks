@@ -1,5 +1,6 @@
 ---
 const year = new Date().getFullYear();
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <footer class="footer">
@@ -43,8 +44,10 @@ const year = new Date().getFullYear();
         </div>
         <div class="col">
           <span class="col-title">Legal</span>
+          <a href={`${BASE}/privacy/`}>Privacy</a>
+          <a href={`${BASE}/terms/`}>Terms</a>
+          <a href={`${BASE}/cookies/`}>Cookies</a>
           <a href="https://github.com/GjinPrelvukaj/Breaks/blob/main/LICENSE" rel="noopener">MIT License</a>
-          <span class="muted">No tracking. No cookies.</span>
         </div>
       </nav>
     </div>

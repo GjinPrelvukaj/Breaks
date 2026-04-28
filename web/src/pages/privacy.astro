@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Footer from "../components/Footer.astro";
+import Prose from "../components/Prose.astro";
+---
+
+<Layout
+  title="Privacy — Breaks"
+  description="Breaks collects nothing. No analytics, no telemetry, no network. Everything stays on your Mac."
+  canonicalPath="/privacy"
+>
+  <SiteHeader />
+  <main>
+    <Prose
+      eyebrow="Privacy"
+      title="We collect nothing."
+      updated="28 April 2026"
+    >
+      <p>
+        Breaks runs entirely on your Mac. The app does not send anything to us, to
+        any third party, or anywhere else. There is no account, no sign-in, no
+        email gate. Nothing about how you use Breaks leaves your machine.
+      </p>
+
+      <h2>What stays on your device</h2>
+      <p>
+        Breaks stores its settings and history in macOS <code>UserDefaults</code>
+        under the bundle identifier <code>com.gjinprelvukaj.Breaks</code>. That
+        includes your timer durations, focus journal entries, streak history,
+        sounds, hotkeys, and similar preferences. None of it is transmitted.
+      </p>
+      <p>
+        Notifications, when enabled, are delivered locally by macOS. Breaks does
+        not generate push notifications from a server.
+      </p>
+
+      <h2>What we don't collect</h2>
+      <ul>
+        <li>No analytics, no metrics, no telemetry.</li>
+        <li>No crash reports sent to us.</li>
+        <li>No advertising identifiers, ever.</li>
+        <li>No location, contacts, calendars, photos, or files.</li>
+        <li>No accounts, emails, names, or device identifiers.</li>
+      </ul>
+
+      <h2>This website</h2>
+      <p>
+        The site you're reading is hosted on GitHub Pages and serves static HTML,
+        CSS, and a couple of fonts. It uses no cookies, no analytics, and no
+        third-party trackers. GitHub may keep standard server-side request logs
+        for the hosting itself; those logs are governed by
+        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" target="_blank">GitHub's own privacy statement</a>.
+      </p>
+
+      <h2>App downloads</h2>
+      <p>
+        When you download a release, GitHub serves the file. GitHub may log that
+        download server-side. Once the app is on your Mac, there's no further
+        contact between Breaks and us.
+      </p>
+
+      <h2>Your data, your control</h2>
+      <p>
+        To wipe everything Breaks knows about you, run this in Terminal:
+      </p>
+      <p><code>defaults delete com.gjinprelvukaj.Breaks</code></p>
+      <p>
+        That clears all preferences and journal data. Uninstall by dragging
+        Breaks.app out of <code>/Applications</code>.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        Breaks is intended for general audiences. Because we collect nothing, no
+        information about anyone, including children, is gathered.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If this policy changes, the updated date at the top of this page will
+        change too. Substantive changes will be noted in the project changelog
+        on GitHub.
+      </p>
+
+      <h2>Questions</h2>
+      <p>
+        Open an issue on
+        <a href="https://github.com/GjinPrelvukaj/Breaks/issues" rel="noopener">GitHub</a>
+        and we'll respond there.
+      </p>
+    </Prose>
+  </main>
+  <Footer />
+</Layout>
