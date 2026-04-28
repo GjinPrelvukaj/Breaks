@@ -28,11 +28,17 @@ import Prose from "../components/Prose.astro";
         Breaks stores its settings and history in macOS <code>UserDefaults</code>
         under the bundle identifier <code>com.gjinprelvukaj.Breaks</code>. That
         includes your timer durations, focus journal entries, streak history,
-        sounds, hotkeys, and similar preferences. None of it is transmitted.
+        sounds, hotkeys, break suggestions, optional calendar export settings,
+        and similar preferences. None of it is transmitted.
       </p>
       <p>
         Notifications, when enabled, are delivered locally by macOS. Breaks does
         not generate push notifications from a server.
+      </p>
+      <p>
+        Calendar export, when enabled, writes completed focus sessions to the
+        calendar you choose through Apple's local EventKit APIs. Breaks does not
+        upload those events or read them for analytics.
       </p>
 
       <h2>What we don't collect</h2>
@@ -40,7 +46,8 @@ import Prose from "../components/Prose.astro";
         <li>No analytics, no metrics, no telemetry.</li>
         <li>No crash reports sent to us.</li>
         <li>No advertising identifiers, ever.</li>
-        <li>No location, contacts, calendars, photos, or files.</li>
+        <li>No location, contacts, photos, or files.</li>
+        <li>No calendar access unless you turn on Calendar export.</li>
         <li>No accounts, emails, names, or device identifiers.</li>
       </ul>
 

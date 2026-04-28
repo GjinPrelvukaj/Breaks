@@ -23,6 +23,8 @@ I built Breaks because every other timer either nagged me too much, hid in a Doc
 - Pomodoro the way you want it. Tweak work / short break / long break lengths, sessions per cycle, sounds, auto-start behavior.
 - Global hotkeys for start/pause, skip, and reset cycle. Bind whatever keys you like. Works even when the app isn't focused, because it uses Carbon's `RegisterEventHotKey` instead of the flaky `NSEvent` route.
 - A focus journal that's actually useful. Pick a focus for the day, label each block, mark it good, messy, or skipped. It's quick, takes one tap during the break, and adds up over the week.
+- Custom break suggestions. Edit the short/long break ideas, add your own, and cycle through them from the timer.
+- Calendar export. Optional EventKit export writes completed focus blocks to your chosen calendar.
 - Streaks with grace. Miss a day and you get a small per-week pause budget before the streak decays. Life happens.
 - Idle detection. If you walked away mid-session, Breaks notices and asks whether the time should still count.
 - Survives sleep. Close the lid, come back, the timer is still where it should be. It's driven by an `endDate` plus `NSWorkspace` sleep/wake notifications, so it doesn't drift.
@@ -72,6 +74,7 @@ Breaks/
 ├── SharedStorage.swift          UserDefaults keys, widget snapshot
 ├── Models/
 │   ├── BreakTimer.swift         the controller. modes, ticks, idle, sleep
+│   ├── BreakSuggestionLibrary.swift  editable break suggestions
 │   ├── TimerSettings.swift      every user-tunable knob
 │   ├── SessionHistory.swift     daily counts and streak math (with pause budget)
 │   └── FocusJournal.swift       today's focus, per-block labels, weekly rollups
@@ -85,6 +88,7 @@ Breaks/
 │   └── ReusableComponents.swift segmented pickers, hotkey rows, etc
 ├── Style/                       button styles, hex colors, glass cards
 └── System/
+    ├── CalendarExporter.swift   optional completed-session calendar export
     ├── Hotkeys.swift            Carbon global hotkeys
     ├── LoginItemController.swift SMAppService wrapper
     └── NotificationPermissions.swift
@@ -100,16 +104,19 @@ A few things worth flagging if you go editing:
 
 ## Permissions
 
-Breaks asks for two things:
+Breaks asks for three things:
 
 - Notifications, so you actually know when a session ends. Granted from the onboarding screen.
 - Launch at login, optional, via `SMAppService`. Toggle it in settings.
+- Calendar access, optional, only if you enable completed-session export.
 
-That's it. No accessibility, no automation, no calendar, no network.
+That's it. No accessibility, no automation, no network.
 
 ## Roadmap
 
 What's planned, what's shipped, what might happen one day: [Breaks Roadmap](https://github.com/users/GjinPrelvukaj/projects/1).
+
+Shipped in v1.1: editable break suggestions, optional Calendar export, and the in-app website link.
 
 If something on there matters to you, react on the issue with a 👍, that's how I prioritize.
 

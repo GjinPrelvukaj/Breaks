@@ -48,20 +48,35 @@ struct TimerRing: View {
 
 struct BreakSuggestionView: View {
     let mode: BreakTimer.Mode
+    @ObservedObject var library: BreakSuggestionLibrary
+    @State private var seed: Int = Int.random(in: 0..<1000)
+
+    private var current: BreakSuggestion? {
+        library.suggestion(for: mode, seed: seed)
+    }
 
     var body: some View {
-        HStack(spacing: 6) {
-            Image(systemName: mode == .shortBreak ? "eye" : "figure.walk")
-                .font(.caption2)
-            Text(mode == .shortBreak ? "Look away, breathe, reset" : "Stand up, water, recover")
-                .font(.caption2)
+        Button {
+            seed &+= 1
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: current?.symbol ?? "sparkles")
+                    .font(.caption2)
+                Text(current?.text ?? "Take a moment")
+                    .font(.caption2)
+            }
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(
+                Capsule()
+                    .fill(Color.secondary.opacity(0.10))
+            )
         }
-        .foregroundStyle(.secondary)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
-        .background(
-            Capsule()
-                .fill(Color.secondary.opacity(0.10))
-        )
+        .buttonStyle(.plain)
+        .help("Click for another suggestion")
+        .onChange(of: mode) { _ in
+            seed = Int.random(in: 0..<1000)
+        }
     }
 }

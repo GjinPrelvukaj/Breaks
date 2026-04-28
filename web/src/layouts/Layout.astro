@@ -15,7 +15,7 @@ const title =
   "Breaks — a quiet menu-bar Pomodoro for macOS";
 const description =
   Astro.props.description ??
-  "A small, focused Pomodoro app that lives in your Mac menu bar. Free, open source, sandboxed. Focus journal, streaks, global hotkeys.";
+  "A small, focused Pomodoro app that lives in your Mac menu bar. Free, open source, sandboxed. Focus journal, streaks, global hotkeys, and optional Calendar export.";
 
 const canonical = `${SITE}${BASE}${Astro.props.canonicalPath ?? "/"}`;
 const og = `${BASE}/og.jpg`;
@@ -30,7 +30,7 @@ const jsonLd = {
   description,
   url: canonical,
   downloadUrl: "https://github.com/GjinPrelvukaj/Breaks/releases/latest",
-  softwareVersion: "1.0",
+  softwareVersion: "1.1",
   author: {
     "@type": "Person",
     name: "Gjin Prelvukaj",

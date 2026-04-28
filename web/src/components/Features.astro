@@ -13,6 +13,18 @@ const items = [
       "Pick a focus, tag each block, mark it good or messy in one tap. A weekly review tells you where the time really went.",
   },
   {
+    icon: "suggestions",
+    title: "Editable break suggestions.",
+    body:
+      "Keep short and long break ideas that actually fit your day. Add, delete, reset, and cycle through them from the timer.",
+  },
+  {
+    icon: "calendar",
+    title: "Calendar export.",
+    body:
+      "Optionally write completed focus blocks to Calendar with your focus label, start time, and end time.",
+  },
+  {
     icon: "streak",
     title: "Streaks with grace.",
     body:
@@ -45,7 +57,7 @@ const items = [
       <span class="eyebrow">Features</span>
       <h2 class="h-section">A timer designed for the corner of your eye.</h2>
       <p class="lede">
-        Six small ideas, executed with care. None of them shout, all of them
+        Eight small ideas, executed with care. None of them shout, all of them
         compound into a workday that feels less interrupted.
       </p>
     </header>
@@ -77,6 +89,21 @@ const items = [
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
                   <path d="M12 2.5c2.4 4 4.8 6.5 4.8 10.2A4.8 4.8 0 0 1 12 17.5a4.8 4.8 0 0 1-4.8-4.8c0-3.7 2.4-6.2 4.8-10.2z" stroke-linejoin="round" />
                   <path d="M12 21l-2 -2.5M12 21l2 -2.5" stroke-linecap="round" />
+                </svg>
+              )}
+              {it.icon === "suggestions" && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <path d="M5 6.5h14M5 12h10M5 17.5h7" stroke-linecap="round" />
+                  <path d="M17 14.5l2 2 3-4" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M3 4.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7.2" stroke-linecap="round" />
+                  <path d="M3 4.5v15a2 2 0 0 0 2 2h9" stroke-linecap="round" />
+                </svg>
+              )}
+              {it.icon === "calendar" && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <rect x="4" y="5" width="16" height="15" rx="2.2" />
+                  <path d="M8 3v4M16 3v4M4 9h16" stroke-linecap="round" />
+                  <path d="M8 13h3v3H8zM14 13h2.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               )}
               {it.icon === "lock" && (

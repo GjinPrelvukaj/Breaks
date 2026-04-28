@@ -55,6 +55,8 @@ final class BreakTimer: ObservableObject {
     let history = SessionHistory()
     let journal = FocusJournal()
     let clock = TickClock()
+    let suggestions = BreakSuggestionLibrary()
+    let calendarExporter = CalendarExporter()
 
     @Published private(set) var mode: Mode
     @Published private(set) var duration: Int
@@ -304,6 +306,13 @@ final class BreakTimer: ObservableObject {
             completedWorkSessions += 1
             history.addCompletion()
             journal.recordCompletedWork(minutes: settings.workMinutes)
+            if settings.calendarExportEnabled {
+                calendarExporter.exportCompletedSession(
+                    title: journal.effectiveBlockLabel,
+                    durationMinutes: settings.workMinutes,
+                    calendarIdentifier: settings.calendarExportIdentifier.isEmpty ? nil : settings.calendarExportIdentifier
+                )
+            }
         } else if finished == .longBreak {
             completedWorkSessions = 0
         }

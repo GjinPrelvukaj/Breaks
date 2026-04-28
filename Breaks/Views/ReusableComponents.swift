@@ -204,8 +204,12 @@ struct AppInfoFooter: View {
                     .foregroundStyle(.secondary)
             }
             HStack(spacing: 10) {
+                Link(destination: URL(string: "https://gjinprelvukaj.github.io/Breaks/")!) {
+                    Label("Website", systemImage: "globe")
+                        .font(.caption2)
+                }
                 Link(destination: URL(string: "https://www.gjinprelvukaj.com")!) {
-                    Label("Portfolio", systemImage: "globe")
+                    Label("Portfolio", systemImage: "person.crop.circle")
                         .font(.caption2)
                 }
                 Link(destination: URL(string: "https://github.com/gjinprelvukaj")!) {

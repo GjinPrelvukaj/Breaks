@@ -13,12 +13,14 @@ import AppKit
 struct SettingsPanel: View {
     @ObservedObject var settings: TimerSettings
     @ObservedObject var hotkeyManager: HotkeyManager
+    @ObservedObject var library: BreakSuggestionLibrary
+    @ObservedObject var calendar: CalendarExporter
     @StateObject private var permissions = NotificationPermissions()
     @Binding var showing: Bool
     @State private var collapsed: Set<SettingsSection> = []
 
     enum SettingsSection: String, CaseIterable, Identifiable {
-        case durations, cycle, streak, focusGuard, appearance, permissions, sound, hotkeys
+        case durations, cycle, streak, focusGuard, appearance, breakSuggestions, calendarExport, permissions, sound, hotkeys
         var id: String { rawValue }
         var title: String {
             switch self {
@@ -27,6 +29,8 @@ struct SettingsPanel: View {
             case .streak: return "Streak"
             case .focusGuard: return "Focus guard"
             case .appearance: return "Appearance"
+            case .breakSuggestions: return "Break suggestions"
+            case .calendarExport: return "Calendar export"
             case .permissions: return "Permissions"
             case .sound: return "Sound"
             case .hotkeys: return "Global Hotkeys"
@@ -95,6 +99,8 @@ struct SettingsPanel: View {
         case .streak: streakSection
         case .focusGuard: focusGuardSection
         case .appearance: appearanceSection
+        case .breakSuggestions: breakSuggestionsSection
+        case .calendarExport: calendarExportSection
         case .permissions: permissionsSection
         case .sound: soundSection
         case .hotkeys: hotkeysSection
@@ -183,6 +189,104 @@ struct SettingsPanel: View {
                         .strokeBorder(Color.secondary.opacity(0.25), lineWidth: 1)
                 )
         }
+    }
+
+    @ViewBuilder
+    private var breakSuggestionsSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(library.suggestions) { s in
+                BreakSuggestionEditorRow(
+                    suggestion: s,
+                    accentColor: settings.accentColor,
+                    onChange: { library.update($0) },
+                    onDelete: { library.remove(s.id) }
+                )
+            }
+            HStack(spacing: 6) {
+                Button {
+                    library.add(BreakSuggestion(text: "New suggestion", symbol: "sparkles", applies: .any))
+                } label: {
+                    Label("Add", systemImage: "plus")
+                        .font(.caption)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                Spacer()
+                Button("Reset to defaults") { library.resetToDefaults() }
+                    .font(.caption)
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.secondary)
+            }
+            Text("Click a suggestion in the timer to cycle through. Library shows during short and long breaks.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    @ViewBuilder
+    private var calendarExportSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Toggle("Log finished focus sessions to Calendar", isOn: Binding(
+                get: { settings.calendarExportEnabled },
+                set: { newValue in
+                    if newValue {
+                        Task {
+                            let granted = await calendar.requestAccess()
+                            await MainActor.run {
+                                settings.calendarExportEnabled = granted
+                            }
+                        }
+                    } else {
+                        settings.calendarExportEnabled = false
+                    }
+                }
+            ))
+            .toggleStyle(.switch)
+            .disabled(calendar.authState == .denied)
+
+            if calendar.authState == .denied {
+                Text("Calendar access denied. Enable in System Settings → Privacy & Security → Calendars.")
+                    .font(.caption2)
+                    .foregroundStyle(.red)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            if settings.calendarExportEnabled,
+               (calendar.authState == .granted || calendar.authState == .writeOnly) {
+                if calendar.availableCalendars.isEmpty {
+                    Text("No writable calendars found. The default calendar will be used.")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                } else {
+                    HStack {
+                        Text("Calendar")
+                            .font(.caption)
+                        Spacer()
+                        Picker("", selection: $settings.calendarExportIdentifier) {
+                            Text("Default").tag("")
+                            ForEach(calendar.availableCalendars, id: \.id) { cal in
+                                Text(cal.title).tag(cal.id)
+                            }
+                        }
+                        .labelsHidden()
+                        .frame(maxWidth: 180)
+                    }
+                }
+            }
+
+            if let err = calendar.lastError {
+                Text(err)
+                    .font(.caption2)
+                    .foregroundStyle(.red)
+            }
+
+            Text("Each completed focus session becomes a calendar event titled with your current focus.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .onAppear { calendar.refreshAuthState() }
     }
 
     @ViewBuilder
@@ -326,5 +430,83 @@ struct CollapsibleSection<Content: View>: View {
                 ))
             }
         }
+    }
+}
+
+// MARK: - Break Suggestion Editor Row
+
+struct BreakSuggestionEditorRow: View {
+    let suggestion: BreakSuggestion
+    let accentColor: Color
+    let onChange: (BreakSuggestion) -> Void
+    let onDelete: () -> Void
+
+    @State private var text: String
+    @State private var symbol: String
+    @State private var applies: BreakSuggestion.Applies
+
+    init(suggestion: BreakSuggestion,
+         accentColor: Color,
+         onChange: @escaping (BreakSuggestion) -> Void,
+         onDelete: @escaping () -> Void) {
+        self.suggestion = suggestion
+        self.accentColor = accentColor
+        self.onChange = onChange
+        self.onDelete = onDelete
+        _text = State(initialValue: suggestion.text)
+        _symbol = State(initialValue: suggestion.symbol)
+        _applies = State(initialValue: suggestion.applies)
+    }
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: symbol.isEmpty ? "sparkles" : symbol)
+                .font(.caption)
+                .foregroundStyle(accentColor)
+                .frame(width: 16)
+
+            TextField("Suggestion", text: $text)
+                .textFieldStyle(.plain)
+                .font(.caption)
+                .onSubmit { commit() }
+
+            TextField("symbol", text: $symbol)
+                .textFieldStyle(.plain)
+                .font(.caption2)
+                .frame(width: 70)
+                .foregroundStyle(.secondary)
+                .onSubmit { commit() }
+
+            Picker("", selection: $applies) {
+                ForEach(BreakSuggestion.Applies.allCases) { a in
+                    Text(a.label).tag(a)
+                }
+            }
+            .labelsHidden()
+            .pickerStyle(.menu)
+            .controlSize(.small)
+            .frame(width: 70)
+            .onChange(of: applies) { _ in commit() }
+
+            Button {
+                onDelete()
+            } label: {
+                Image(systemName: "minus.circle")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.vertical, 2)
+        .onChange(of: text) { _ in commit() }
+        .onChange(of: symbol) { _ in commit() }
+    }
+
+    private func commit() {
+        var updated = suggestion
+        updated.text = text
+        updated.symbol = symbol
+        updated.applies = applies
+        onChange(updated)
     }
 }

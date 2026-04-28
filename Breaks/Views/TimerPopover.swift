@@ -32,7 +32,7 @@ struct TimerPopover: View {
                 StatsView(history: timer.history, journal: timer.journal, settings: settings, showing: $showingStats)
                     .transition(pageTransition(forward: false))
             case .settings:
-                SettingsPanel(settings: settings, hotkeyManager: hotkeyManager, showing: $showingSettings)
+                SettingsPanel(settings: settings, hotkeyManager: hotkeyManager, library: timer.suggestions, calendar: timer.calendarExporter, showing: $showingSettings)
                     .transition(pageTransition(forward: true))
             case .timer:
                 TimerContent(timer: timer,

@@ -38,6 +38,8 @@ final class TimerSettings: ObservableObject {
     @Published var skipHotkeyModifiers: Int { didSet { ud.set(skipHotkeyModifiers, forKey: "skipHotkeyModifiers") } }
     @Published var resetHotkeyKeyCode: Int { didSet { ud.set(resetHotkeyKeyCode, forKey: "resetHotkeyKeyCode") } }
     @Published var resetHotkeyModifiers: Int { didSet { ud.set(resetHotkeyModifiers, forKey: "resetHotkeyModifiers") } }
+    @Published var calendarExportEnabled: Bool { didSet { ud.set(calendarExportEnabled, forKey: "calendarExportEnabled") } }
+    @Published var calendarExportIdentifier: String { didSet { ud.set(calendarExportIdentifier, forKey: "calendarExportIdentifier") } }
     @Published private(set) var launchAtLogin: Bool
     @Published private(set) var loginItemError: String?
 
@@ -65,6 +67,8 @@ final class TimerSettings: ObservableObject {
         skipHotkeyModifiers = (ud.object(forKey: "skipHotkeyModifiers") as? Int) ?? Int(cmdKey + optionKey)
         resetHotkeyKeyCode = (ud.object(forKey: "resetHotkeyKeyCode") as? Int) ?? Int(kVK_ANSI_R)
         resetHotkeyModifiers = (ud.object(forKey: "resetHotkeyModifiers") as? Int) ?? Int(cmdKey + optionKey)
+        calendarExportEnabled = (ud.object(forKey: "calendarExportEnabled") as? Bool) ?? false
+        calendarExportIdentifier = (ud.object(forKey: "calendarExportIdentifier") as? String) ?? ""
         launchAtLogin    = LoginItemController.isEnabled
     }
 

@@ -62,7 +62,7 @@ struct TimerContent: View {
             }
 
             if timer.mode != .work {
-                BreakSuggestionView(mode: timer.mode)
+                BreakSuggestionView(mode: timer.mode, library: timer.suggestions)
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
 
