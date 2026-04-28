@@ -5,7 +5,7 @@ const faqs = [
     a: "Yes. Free, MIT-licensed, no in-app purchases, no account, no analytics, nothing leaves your machine. State lives in macOS UserDefaults under the bundle ID.",
   },
   {
-    q: "Why do I get an 'unidentified developer' warning?",
+    q: "Why the 'unidentified developer' warning?",
     a: "Breaks isn't notarized by Apple yet. Notarization requires a $99/year Apple Developer membership. Until then, right-click the app and choose Open on first launch, or run xattr -dr com.apple.quarantine /Applications/Breaks.app once.",
   },
   {
@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: "What happens if I close my laptop mid-session?",
-    a: "Breaks watches sleep and wake notifications, then reconciles the timer against an end-date so it doesn't drift. Open the lid an hour later and the session is right where it should be (or finished, if the time elapsed).",
+    a: "Breaks watches sleep and wake notifications, then reconciles the timer against an end-date so it doesn't drift. Open the lid an hour later and the session is right where it should be.",
   },
   {
     q: "What about idle time?",
@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: "Will there be auto-updates?",
-    a: "Sparkle is on the roadmap. For now, watch the GitHub repo or check Releases. New versions are tag-driven and ship on the same day they're built.",
+    a: "Sparkle is on the roadmap. For now, watch the GitHub repo or check Releases. New versions are tag-driven and ship the same day they're built.",
   },
   {
     q: "Where can I file bugs or request features?",
@@ -36,10 +36,10 @@ const faqs = [
 ---
 
 <section id="faq" class="faq">
-  <div class="wrap">
+  <div class="wrap wrap-narrow">
     <header class="head">
-      <span class="eyebrow">Questions</span>
-      <h2 class="serif">Things people ask first.</h2>
+      <span class="eyebrow">Frequently asked</span>
+      <h2 class="h-section">Things people ask first.</h2>
     </header>
 
     <div class="list" itemscope itemtype="https://schema.org/FAQPage">
@@ -53,7 +53,11 @@ const faqs = [
           >
             <summary>
               <span itemprop="name" class="q">{f.q}</span>
-              <span class="caret" aria-hidden="true">+</span>
+              <span class="caret" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
             </summary>
             <div
               class="a"
@@ -72,31 +76,20 @@ const faqs = [
 
 <style>
   .faq {
-    padding-block: clamp(4rem, 9vw, 7rem);
+    padding-block: clamp(5rem, 10vw, 8rem);
     border-top: 1px solid var(--hair);
   }
   .head {
     display: grid;
-    gap: 1rem;
-    max-width: 30ch;
+    gap: 0.85rem;
+    text-align: center;
     margin-bottom: clamp(2rem, 5vw, 3rem);
-  }
-  .head h2 {
-    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    font-weight: 400;
-    font-variation-settings: "opsz" 100, "SOFT" 70;
   }
 
   .list {
-    max-width: 80ch;
+    border-top: 1px solid var(--hair);
   }
   .item {
-    border-top: 1px solid var(--hair);
-    padding: 1.1rem 0;
-  }
-  .item:last-of-type {
     border-bottom: 1px solid var(--hair);
   }
   summary {
@@ -106,38 +99,46 @@ const faqs = [
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-block: 0.2rem;
+    padding: 1.4rem 0.25rem;
+    transition: color 0.15s ease;
   }
   summary::-webkit-details-marker {
     display: none;
   }
-  .q {
-    font-family: var(--serif);
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
+  summary:hover .q {
     color: var(--ink);
-    font-variation-settings: "opsz" 36, "SOFT" 70;
+  }
+  .q {
+    font-size: clamp(1rem, 1.4vw, 1.05rem);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    transition: color 0.15s ease;
   }
   .caret {
-    font-family: var(--mono);
-    font-size: 1.1rem;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
     color: var(--ink-mute);
-    width: 1.4rem;
-    text-align: center;
-    transition: transform 0.2s ease, color 0.2s ease;
+    transition: transform 0.25s ease, color 0.2s ease;
+    flex-shrink: 0;
+  }
+  .caret svg {
+    width: 14px;
+    height: 14px;
   }
   .item[open] .caret {
-    transform: rotate(45deg);
-    color: var(--amber);
+    transform: rotate(180deg);
+    color: var(--ink);
   }
   .a {
     overflow: hidden;
-    padding-top: 0.85rem;
+    padding: 0 0.25rem 1.4rem;
     color: var(--ink-dim);
     line-height: 1.65;
-    font-size: 1rem;
+    font-size: 0.96rem;
     max-width: 64ch;
   }
   .item[open] .a {

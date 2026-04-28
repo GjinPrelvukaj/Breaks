@@ -4,17 +4,19 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 const shots = [
   {
     file: "screenshot-stats.png",
-    label: "Streaks",
-    caption: "Heatmap, weekly review, pause budget.",
+    eyebrow: "Streaks",
+    title: "See the rhythm without grading yourself.",
+    body:
+      "A heatmap of your year, a weekly review pulled from the journal, and a streak number that doesn't punish you for taking the day off.",
     alt: "Breaks stats page showing streak heatmap and weekly review",
-    span: "half",
   },
   {
     file: "screenshot-settings.png",
-    label: "Settings",
-    caption: "Every knob, in one collapsible page.",
+    eyebrow: "Settings",
+    title: "Tune it once, forget it forever.",
+    body:
+      "Durations, sounds, hotkeys, idle threshold, pause-day budget. Every option in one collapsible page.",
     alt: "Breaks settings panel with collapsible sections for timer, sound, hotkeys",
-    span: "half",
   },
 ];
 ---
@@ -23,120 +25,109 @@ const shots = [
   <div class="wrap">
     <header class="head">
       <span class="eyebrow">A look around</span>
-      <h2 class="serif">
-        Designed for the corner of your eye.
-      </h2>
+      <h2 class="h-section">Designed for one job, sweated to the pixel.</h2>
     </header>
 
-    <div class="gallery">
-      {
-        shots.map((s, i) => (
-          <figure class={`shot ${s.span}`}>
-            <span class="tag">
-              <span class="tag-num">{String(i + 1).padStart(2, "0")}</span>
-              <span class="tag-label">{s.label}</span>
-            </span>
-            <div class="frame">
-              <img
-                src={`${BASE}/media/${s.file}`}
-                alt={s.alt}
-                width="732"
-                height="1100"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>{s.caption}</figcaption>
+    {
+      shots.map((s, i) => (
+        <article class={`row ${i % 2 === 0 ? "alt-a" : "alt-b"}`}>
+          <div class="copy">
+            <span class="row-eyebrow">{s.eyebrow}</span>
+            <h3 class="row-title">{s.title}</h3>
+            <p class="row-body">{s.body}</p>
+          </div>
+          <figure class="visual glass">
+            <img
+              src={`${BASE}/media/${s.file}`}
+              alt={s.alt}
+              width="732"
+              height="1100"
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
-        ))
-      }
-    </div>
+        </article>
+      ))
+    }
   </div>
 </section>
 
 <style>
   .screens {
-    padding-block: clamp(4rem, 9vw, 7rem);
+    padding-block: clamp(5rem, 10vw, 8rem);
     border-top: 1px solid var(--hair);
   }
+
   .head {
     display: grid;
-    gap: 1rem;
-    max-width: 30ch;
-    margin-bottom: clamp(2rem, 5vw, 3.5rem);
-  }
-  .head h2 {
-    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    font-weight: 400;
-    font-variation-settings: "opsz" 100, "SOFT" 70;
+    gap: 0.85rem;
+    text-align: center;
+    max-width: 56ch;
+    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
   }
 
-  .gallery {
+  .row {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: clamp(1.25rem, 2.5vw, 2rem);
-    align-items: end;
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    padding-block: clamp(2rem, 4vw, 3.5rem);
   }
-  .shot {
-    grid-column: span 12;
+  .row + .row {
+    border-top: 1px solid var(--hair);
+  }
+
+  @media (min-width: 880px) {
+    .row {
+      grid-template-columns: 1fr 1.05fr;
+    }
+    .row.alt-b .copy {
+      order: 2;
+    }
+    .row.alt-b .visual {
+      order: 1;
+    }
+  }
+
+  .copy {
     display: grid;
     gap: 0.85rem;
+    max-width: 46ch;
   }
-  @media (min-width: 800px) {
-    .shot.half {
-      grid-column: span 6;
-    }
-    .shot.half:nth-of-type(2) {
-      transform: translateY(2.5rem);
-    }
-  }
-
-  .tag {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.6rem;
-    color: var(--ink-mute);
-  }
-  .tag-num {
+  .row-eyebrow {
     font-family: var(--mono);
     font-size: 0.7rem;
-    letter-spacing: 0.16em;
-    color: var(--amber);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
   }
-  .tag-label {
-    font-family: var(--serif);
-    font-style: italic;
+  .row-title {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .row-body {
     color: var(--ink-dim);
-    font-size: 0.95rem;
-    font-variation-settings: "opsz" 24;
+    font-size: 1.02rem;
+    line-height: 1.6;
   }
 
-  .frame {
-    border: 1px solid var(--hair);
-    border-radius: 14px;
-    overflow: hidden;
-    background:
-      radial-gradient(80% 60% at 50% 0%, rgba(212, 164, 92, 0.08), transparent 60%),
-      var(--bg-elev);
-    padding: clamp(0.6rem, 1.5vw, 1rem);
+  .visual {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+    aspect-ratio: 4 / 5;
+  }
+  .visual img {
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 12px;
     box-shadow:
-      0 1px 0 var(--hair-strong) inset,
-      0 30px 60px -30px rgba(0, 0, 0, 0.6);
-  }
-  .frame img {
-    border-radius: 8px;
-    width: 100%;
-    height: auto;
-    box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.5);
-  }
-
-  figcaption {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--ink-dim);
-    font-variation-settings: "opsz" 36;
+      0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 18px 50px -16px rgba(0, 0, 0, 0.6);
   }
 </style>

@@ -4,74 +4,125 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="wrap inner">
-    <div class="left">
-      <span class="serif mark">Breaks</span>
-      <p class="line">
-        A small, opinionated Pomodoro for macOS. Built by one person who needed it.
-      </p>
+    <section class="cta">
+      <h2 class="h-section">Stop being interrupted.</h2>
+      <p>Free, open source, ships today. Drop it in your menu bar and forget you installed it.</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://github.com/GjinPrelvukaj/Breaks/releases/latest" rel="noopener">
+          Download for macOS
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/GjinPrelvukaj/Breaks" rel="noopener" target="_blank">
+          View on GitHub
+        </a>
+      </div>
+    </section>
+
+    <div class="bottom">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="13" r="8" />
+            <path d="M12 8v5l3 2" stroke-linecap="round" />
+            <path d="M9 2h6" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="brand-name">Breaks</span>
+      </div>
+
+      <nav class="links" aria-label="Footer">
+        <div class="col">
+          <span class="col-title">App</span>
+          <a href="https://github.com/GjinPrelvukaj/Breaks/releases/latest" rel="noopener">Download</a>
+          <a href="https://github.com/GjinPrelvukaj/Breaks">Source</a>
+          <a href="https://github.com/users/GjinPrelvukaj/projects/1" rel="noopener">Roadmap</a>
+        </div>
+        <div class="col">
+          <span class="col-title">Author</span>
+          <a href="https://github.com/GjinPrelvukaj" rel="noopener">GjinPrelvukaj</a>
+          <a href="https://github.com/GjinPrelvukaj/Breaks/issues" rel="noopener">Report a bug</a>
+        </div>
+        <div class="col">
+          <span class="col-title">Legal</span>
+          <a href="https://github.com/GjinPrelvukaj/Breaks/blob/main/LICENSE" rel="noopener">MIT License</a>
+          <span class="muted">No tracking. No cookies.</span>
+        </div>
+      </nav>
     </div>
-    <nav class="links">
-      <div class="col">
-        <span class="col-title">App</span>
-        <a href="https://github.com/GjinPrelvukaj/Breaks/releases/latest" rel="noopener">Download</a>
-        <a href="https://github.com/GjinPrelvukaj/Breaks">Source code</a>
-        <a href="https://github.com/users/GjinPrelvukaj/projects/1" rel="noopener">Roadmap</a>
-      </div>
-      <div class="col">
-        <span class="col-title">Author</span>
-        <a href="https://github.com/GjinPrelvukaj" rel="noopener">GjinPrelvukaj</a>
-        <a href="https://github.com/GjinPrelvukaj/Breaks/issues" rel="noopener">Report a bug</a>
-      </div>
-      <div class="col">
-        <span class="col-title">Legal</span>
-        <a href="https://github.com/GjinPrelvukaj/Breaks/blob/main/LICENSE" rel="noopener">MIT License</a>
-        <span class="muted">No tracking. No cookies.</span>
-      </div>
-    </nav>
-  </div>
-  <div class="wrap colophon">
-    <span>© {year} Gjin Prelvukaj.</span>
-    <span class="dot">·</span>
-    <span class="serif italic">Set in Fraunces &amp; Geist.</span>
-    <span class="dot">·</span>
-    <a href="https://github.com/GjinPrelvukaj/Breaks" rel="noopener">v1.0</a>
+
+    <div class="colophon">
+      <span>© {year} Gjin Prelvukaj.</span>
+      <span class="dot" aria-hidden="true">·</span>
+      <span>Set in Geist.</span>
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="https://github.com/GjinPrelvukaj/Breaks/releases/tag/v1.0" rel="noopener">v1.0</a>
+    </div>
   </div>
 </footer>
 
 <style>
   .footer {
     border-top: 1px solid var(--hair);
-    padding-block: clamp(3rem, 6vw, 4.5rem);
+    padding-top: clamp(3rem, 6vw, 4.5rem);
+    padding-bottom: clamp(2rem, 4vw, 3rem);
     margin-top: clamp(3rem, 6vw, 5rem);
-    background:
-      linear-gradient(180deg, transparent 0%, rgba(212, 164, 92, 0.04) 100%);
   }
-  .inner {
+
+  .cta {
+    text-align: center;
+    max-width: 60ch;
+    margin: 0 auto clamp(3.5rem, 7vw, 5rem);
     display: grid;
-    grid-template-columns: 1fr;
+    gap: 1rem;
+    justify-items: center;
+  }
+  .cta p {
+    color: var(--ink-dim);
+    font-size: 1.02rem;
+    line-height: 1.55;
+    max-width: 50ch;
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+  }
+
+  .bottom {
+    display: grid;
     gap: clamp(2rem, 4vw, 3rem);
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--hair);
   }
   @media (min-width: 760px) {
-    .inner {
-      grid-template-columns: 1.2fr 1.8fr;
+    .bottom {
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
     }
   }
 
-  .left {
-    display: grid;
-    gap: 0.9rem;
-    max-width: 36ch;
+  .brand {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
   }
   .mark {
-    font-size: 1.6rem;
-    font-weight: 500;
-    letter-spacing: -0.015em;
-    font-variation-settings: "opsz" 36, "SOFT" 70;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    color: var(--ink);
   }
-  .line {
-    color: var(--ink-dim);
-    font-size: 0.95rem;
-    line-height: 1.6;
+  .mark svg {
+    width: 18px;
+    height: 18px;
+  }
+  .brand-name {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
   }
 
   .links {
@@ -82,23 +133,24 @@ const year = new Date().getFullYear();
   @media (max-width: 540px) {
     .links {
       grid-template-columns: 1fr 1fr;
+      row-gap: 1.5rem;
     }
   }
   .col {
     display: grid;
-    gap: 0.55rem;
+    gap: 0.5rem;
   }
   .col-title {
     font-family: var(--mono);
     font-size: 0.7rem;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.08em;
     color: var(--ink-mute);
     text-transform: uppercase;
     margin-bottom: 0.2rem;
   }
   .col a {
     color: var(--ink-dim);
-    font-size: 0.93rem;
+    font-size: 0.9rem;
     transition: color 0.15s ease;
   }
   .col a:hover {
@@ -110,18 +162,16 @@ const year = new Date().getFullYear();
   }
 
   .colophon {
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
-    padding-top: 1.4rem;
-    border-top: 1px solid var(--hair);
+    margin-top: 1.5rem;
     color: var(--ink-mute);
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.55rem;
     align-items: center;
   }
   .colophon .dot {
-    opacity: 0.5;
+    opacity: 0.45;
   }
   .colophon a {
     color: var(--ink-dim);
@@ -130,9 +180,5 @@ const year = new Date().getFullYear();
   }
   .colophon a:hover {
     border-color: var(--hair-strong);
-  }
-  .italic {
-    font-style: italic;
-    font-variation-settings: "opsz" 24;
   }
 </style>

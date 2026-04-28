@@ -4,51 +4,46 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 <section class="hero">
   <div class="wrap inner">
-    <aside class="meta rise" style="animation-delay: 60ms">
-      <span class="eyebrow">Breaks · v1.0 · macOS 13+</span>
-    </aside>
+    <div class="rise" style="animation-delay: 60ms">
+      <span class="pill"><span class="dot" aria-hidden="true"></span>Version 1.0 · Now available</span>
+    </div>
 
-    <h1 class="title rise" style="animation-delay: 140ms">
-      <span class="serif">A Pomodoro that</span>
-      <em class="serif accent">whispers,</em>
-      <span class="serif">never nags.</span>
+    <h1 class="h-display headline rise" style="animation-delay: 140ms">
+      A Pomodoro that<br />
+      respects your attention.
     </h1>
 
     <p class="lede rise" style="animation-delay: 240ms">
-      Breaks lives quietly in your menu bar. Keeps a focus journal. Tracks streaks
-      with a little grace when life gets in the way. No account, no analytics, no
-      noise. Just a timer that respects your attention.
+      Breaks lives quietly in your menu bar. It tracks focus, keeps streaks,
+      and stays out of your way. No account. No analytics. No noise.
     </p>
 
     <div class="ctas rise" style="animation-delay: 320ms">
       <a class="btn btn-primary" href="https://github.com/GjinPrelvukaj/Breaks/releases/latest" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
         Download for macOS
       </a>
       <a class="btn btn-ghost" href="https://github.com/GjinPrelvukaj/Breaks" rel="noopener" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 .5C5.65.5.5 5.65.5 12.02c0 5.1 3.29 9.42 7.86 10.95.58.1.79-.25.79-.55v-2.05c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.39.97.1-.75.4-1.27.74-1.56-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.95 10.95 0 0 1 5.74 0c2.2-1.49 3.16-1.18 3.16-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.7 5.36-5.27 5.65.41.36.78 1.07.78 2.15v3.18c0 .31.21.66.8.55 4.57-1.53 7.86-5.85 7.86-10.95C23.5 5.65 18.35.5 12 .5z"/>
-        </svg>
-        Source on GitHub
+        View source
       </a>
-      <span class="meta-note">Free · MIT · Universal binary</span>
     </div>
 
-    <figure class="media rise" style="animation-delay: 460ms" aria-label="Breaks running in the macOS menu bar">
-      <div class="frame">
+    <p class="meta-line rise" style="animation-delay: 400ms">
+      Free &amp; open source · Universal binary · macOS 13 or later
+    </p>
+
+    <figure class="media rise" style="animation-delay: 480ms" aria-label="Breaks running in the macOS menu bar">
+      <div class="frame glass">
         <div class="menubar" aria-hidden="true">
           <div class="mb-left">
             <span class="mb-apple">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.7c0 1.2-.5 2.3-1.3 3.1-.9.9-2 1.6-3.2 1.5-.1-1.2.5-2.4 1.3-3.2.9-.9 2.1-1.4 3.2-1.4zM20.5 17.4c-.6 1.4-1 2.1-1.7 3.3-1.1 1.7-2.6 3.7-4.5 3.7-1.7 0-2.1-1.1-4.4-1.1s-2.7 1.1-4.4 1.1c-1.9 0-3.4-1.9-4.5-3.6C-1 16.5-1.5 11 .5 7.7c1.4-2.4 3.6-3.9 5.7-3.9 1.7 0 2.8 1 4.3 1 1.4 0 2.3-1 4.3-1 1.5 0 3.1.8 4.3 2.2-3.7 2-3.1 7.4 1.4 9.4z"/></svg>
             </span>
-            <span class="mb-text">Finder</span>
+            <span class="mb-text bold">Finder</span>
             <span class="mb-text dim">File · Edit · View · Window · Help</span>
           </div>
           <div class="mb-right">
-            <span class="mb-icon active" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <span class="mb-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <circle cx="12" cy="13" r="8" />
                 <path d="M12 8v5l3 2" stroke-linecap="round" />
                 <path d="M9 2h6" stroke-linecap="round" />
@@ -62,7 +57,7 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
         <div class="popover-wrap">
           <img
             src={`${BASE}/media/demo.gif`}
-            alt="Demo of Breaks: opening the menu bar popover, starting a focus session, viewing streaks and settings"
+            alt="Breaks in action: opening the menu-bar popover, starting a focus session, viewing streaks and settings"
             width="1108"
             height="720"
             loading="eager"
@@ -71,84 +66,72 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
           />
         </div>
       </div>
-
-      <figcaption class="caption">
-        <span class="cap-num">FIG. 01</span>
-        Live in the menu bar. The popover opens with a click, closes the moment you look away.
-      </figcaption>
     </figure>
   </div>
 </section>
 
 <style>
   .hero {
-    padding-top: clamp(3rem, 8vw, 6rem);
+    position: relative;
+    padding-top: clamp(4rem, 10vw, 8rem);
     padding-bottom: clamp(3rem, 7vw, 5rem);
+    overflow: hidden;
+    text-align: center;
   }
 
   .inner {
     display: grid;
-    gap: clamp(1.25rem, 2.5vw, 1.75rem);
+    gap: clamp(1rem, 2.2vw, 1.5rem);
+    justify-items: center;
   }
 
-  .meta {
-    display: flex;
+  .pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--amber);
   }
 
-  .title {
-    font-size: clamp(2.4rem, 7.5vw, 5.6rem);
-    line-height: 1.02;
-    font-weight: 400;
-    max-width: 18ch;
-    letter-spacing: -0.025em;
-    font-variation-settings: "opsz" 144, "SOFT" 60;
-  }
-  .title .accent {
-    color: var(--amber);
-    font-style: italic;
-    font-variation-settings: "opsz" 144, "SOFT" 100;
-  }
-  .title em {
-    font-style: italic;
+  .headline {
+    max-width: 22ch;
   }
 
   .lede {
-    font-size: clamp(1.05rem, 1.6vw, 1.18rem);
+    font-size: clamp(1.05rem, 1.45vw, 1.2rem);
     color: var(--ink-dim);
     max-width: 56ch;
-    line-height: 1.6;
+    line-height: 1.55;
+    font-weight: 400;
   }
 
   .ctas {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.7rem 1rem;
-    margin-top: 0.4rem;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
   }
-  .meta-note {
+
+  .meta-line {
     font-family: var(--mono);
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     color: var(--ink-mute);
     letter-spacing: 0.04em;
-    margin-left: 0.4rem;
+    margin-top: 0.4rem;
   }
 
   .media {
-    margin-top: clamp(2rem, 4vw, 3rem);
-    display: grid;
-    gap: 0.9rem;
+    width: 100%;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    text-align: left;
   }
 
   .frame {
-    border: 1px solid var(--hair);
-    border-radius: 14px;
-    overflow: hidden;
-    background: linear-gradient(180deg, #0e0a08 0%, #0a0706 100%);
+    border-radius: 16px;
     box-shadow:
-      0 1px 0 var(--hair-strong) inset,
-      0 30px 80px -30px rgba(212, 164, 92, 0.18),
-      0 60px 120px -40px rgba(0, 0, 0, 0.6);
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 40px 100px -40px rgba(0, 0, 0, 0.7);
   }
 
   .menubar {
@@ -156,8 +139,8 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
     align-items: center;
     justify-content: space-between;
     padding: 0 14px;
-    height: 28px;
-    background: rgba(10, 7, 5, 0.92);
+    height: 30px;
+    background: rgba(0, 0, 0, 0.5);
     border-bottom: 1px solid var(--hair);
     font-size: 0.78rem;
     color: var(--ink-dim);
@@ -180,6 +163,10 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
   .mb-text {
     line-height: 1;
   }
+  .mb-text.bold {
+    color: var(--ink);
+    font-weight: 600;
+  }
   .mb-text.dim {
     color: var(--ink-mute);
   }
@@ -190,50 +177,28 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
   .mb-icon {
     display: inline-grid;
     place-items: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 6px;
-    color: var(--amber);
-    background: color-mix(in srgb, var(--amber) 14%, transparent);
-    border: 1px solid color-mix(in srgb, var(--amber) 28%, transparent);
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--hair-strong);
   }
   .mb-icon svg {
-    width: 11px;
-    height: 11px;
+    width: 12px;
+    height: 12px;
   }
 
   .popover-wrap {
-    padding: clamp(1rem, 3vw, 2rem);
+    padding: clamp(1rem, 3vw, 2.4rem);
     display: grid;
     place-items: center;
-    background:
-      radial-gradient(120% 80% at 50% 0%, rgba(212, 164, 92, 0.08), transparent 60%),
-      transparent;
   }
   .popover-wrap img {
     border-radius: 10px;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.04) inset,
-      0 12px 40px -12px rgba(0, 0, 0, 0.6);
+      0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 14px 50px -14px rgba(0, 0, 0, 0.6);
     max-width: min(100%, 880px);
-  }
-
-  .caption {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--ink-dim);
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.9rem;
-    padding-inline: 0.2rem;
-  }
-  .cap-num {
-    font-family: var(--mono);
-    font-style: normal;
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
-    color: var(--ink-mute);
-    text-transform: uppercase;
   }
 </style>

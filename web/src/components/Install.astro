@@ -1,138 +1,198 @@
 ---
+const steps = [
+  {
+    icon: "download",
+    title: "Download",
+    body:
+      "Grab the latest zip from GitHub. Universal binary, around one megabyte.",
+    link: { href: "https://github.com/GjinPrelvukaj/Breaks/releases/latest", label: "Latest release →" },
+  },
+  {
+    icon: "drag",
+    title: "Move to /Applications",
+    body: "Same as any other Mac app. Drag and drop.",
+  },
+  {
+    icon: "open",
+    title: "Right-click, Open",
+    body:
+      "First launch only. macOS shows a dialog; click Open. Launches normally forever after.",
+  },
+  {
+    icon: "terminal",
+    title: "Skip the prompt",
+    body:
+      "Or remove the quarantine flag with one command in Terminal.",
+    code: "xattr -dr com.apple.quarantine /Applications/Breaks.app",
+  },
+];
 ---
 
 <section id="install" class="install">
   <div class="wrap">
     <header class="head">
       <span class="eyebrow">First launch</span>
-      <h2 class="serif">
-        Drag, right-click, open. Done in twenty seconds.
-      </h2>
+      <h2 class="h-section">From download to running in under twenty seconds.</h2>
       <p class="lede">
-        Breaks isn't notarized yet. Apple charges <em>$99 a year</em> for that
-        and this is a free side project. macOS will warn you the first time;
-        the workaround is small and one-off.
+        Breaks isn't notarized yet. Apple charges $99/yr for that and this is a
+        free side project. macOS warns you the first time only.
       </p>
     </header>
 
-    <ol class="steps">
-      <li>
-        <span class="step-num">i.</span>
-        <div>
-          <h3 class="serif">Download the zip.</h3>
-          <p>
-            From the <a href="https://github.com/GjinPrelvukaj/Breaks/releases/latest" rel="noopener">latest release</a>.
-            Universal binary, around one megabyte zipped.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="step-num">ii.</span>
-        <div>
-          <h3 class="serif">Move it to <code>/Applications</code>.</h3>
-          <p>Same as any other Mac app. Drag and drop.</p>
-        </div>
-      </li>
-      <li>
-        <span class="step-num">iii.</span>
-        <div>
-          <h3 class="serif">Right-click → Open.</h3>
-          <p>
-            On first launch only. macOS shows a dialog; click <strong>Open</strong>.
-            After that it launches normally, forever.
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="step-num">iv.</span>
-        <div>
-          <h3 class="serif">Or: skip the prompt entirely.</h3>
-          <p>One line in Terminal removes the quarantine flag:</p>
-<pre><code>xattr -dr com.apple.quarantine /Applications/Breaks.app</code></pre>
-        </div>
-      </li>
+    <ol class="grid">
+      {
+        steps.map((s, i) => (
+          <li class="step">
+            <header class="step-head">
+              <span class="step-num">0{i + 1}</span>
+              <span class="ico" aria-hidden="true">
+                {s.icon === "download" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <path d="M12 4v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M4 20h16" stroke-linecap="round" />
+                  </svg>
+                )}
+                {s.icon === "drag" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <rect x="3" y="3" width="9" height="9" rx="1.6" />
+                    <rect x="12.5" y="12.5" width="8.5" height="8.5" rx="1.6" stroke-dasharray="2 2.5" />
+                    <path d="M11 9l4 4M14 9h-3v3" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                )}
+                {s.icon === "open" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" stroke-linejoin="round" />
+                    <path d="M9 14h6m0 0l-2-2m2 2l-2 2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                )}
+                {s.icon === "terminal" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <rect x="3" y="4" width="18" height="16" rx="2.4" />
+                    <path d="M7 9l3 3-3 3M13 15h4" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                )}
+              </span>
+            </header>
+            <h3 class="step-title">{s.title}</h3>
+            <p class="step-body">{s.body}</p>
+            {s.link && (
+              <a class="step-link" href={s.link.href} rel="noopener">
+                {s.link.label}
+              </a>
+            )}
+            {s.code && (
+              <pre class="step-code"><code>{s.code}</code></pre>
+            )}
+          </li>
+        ))
+      }
     </ol>
   </div>
 </section>
 
 <style>
   .install {
-    padding-block: clamp(4rem, 9vw, 7rem);
+    padding-block: clamp(5rem, 10vw, 8rem);
     border-top: 1px solid var(--hair);
   }
   .head {
     display: grid;
-    gap: 1rem;
-    max-width: 56ch;
-    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+    gap: 0.85rem;
+    text-align: center;
+    max-width: 60ch;
+    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
   }
-  .head h2 {
-    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    font-weight: 400;
-    font-variation-settings: "opsz" 100, "SOFT" 70;
-  }
-  .head em {
-    font-style: italic;
-    color: var(--amber);
-  }
-  .lede {
+  .head .lede {
     color: var(--ink-dim);
     font-size: 1.05rem;
-    line-height: 1.65;
+    line-height: 1.6;
   }
 
-  .steps {
+  .grid {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
-    gap: clamp(1.5rem, 2.5vw, 2rem);
-    counter-reset: step;
-    max-width: 70ch;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--hair);
+    border: 1px solid var(--hair);
+    border-radius: 18px;
+    overflow: hidden;
   }
-  .steps li {
+  @media (max-width: 980px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 540px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .step {
+    background: var(--bg-elev);
+    padding: clamp(1.5rem, 2.6vw, 1.9rem);
     display: grid;
-    grid-template-columns: 3.2rem 1fr;
-    column-gap: 1rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--hair);
+    gap: 0.55rem;
+    align-content: start;
+    transition: background 0.2s ease;
   }
-  .steps li:last-child {
-    border-bottom: 0;
+  .step:hover {
+    background: var(--bg-soft);
+  }
+  .step-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
   }
   .step-num {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 1.6rem;
-    line-height: 1;
-    color: var(--amber);
-    font-variation-settings: "opsz" 144;
-    padding-top: 0.15em;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
   }
-  .steps h3 {
-    font-size: 1.18rem;
-    line-height: 1.3;
-    font-weight: 500;
-    margin-bottom: 0.4rem;
-    font-variation-settings: "opsz" 36;
-    letter-spacing: -0.01em;
-  }
-  .steps p {
+  .ico {
+    width: 28px;
+    height: 28px;
     color: var(--ink-dim);
-    font-size: 0.98rem;
-    line-height: 1.6;
   }
-  .steps a {
-    color: var(--amber);
-    border-bottom: 1px solid color-mix(in srgb, var(--amber) 40%, transparent);
+  .ico svg {
+    width: 100%;
+    height: 100%;
+  }
+  .step-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .step-body {
+    color: var(--ink-dim);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .step-link {
+    margin-top: 0.4rem;
+    color: var(--ink);
+    font-size: 0.88rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--hair-strong);
+    align-self: start;
     transition: border-color 0.15s ease;
   }
-  .steps a:hover {
-    border-color: var(--amber);
+  .step-link:hover {
+    border-color: var(--ink);
   }
-  .steps pre {
+  .step-code {
     margin-top: 0.6rem;
+    font-size: 0.78rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--hair);
+    color: var(--ink);
   }
 </style>
