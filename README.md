@@ -104,6 +104,12 @@ Breaks asks for two things:
 
 That's it. No accessibility, no automation, no calendar, no network.
 
+## Roadmap
+
+What's planned, what's shipped, what might happen one day: [Breaks Roadmap](https://github.com/users/GjinPrelvukaj/projects/1).
+
+If something on there matters to you, react on the issue with a 👍, that's how I prioritize.
+
 ## Status
 
 I use it daily. It probably has rough edges if your workflow is very different from mine. PRs and issues are welcome, but fair warning, this is a personal app first.
