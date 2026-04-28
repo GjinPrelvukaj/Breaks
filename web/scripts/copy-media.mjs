@@ -8,7 +8,6 @@ const out = resolve(here, "../public/media");
 
 const files = [
   "demo.gif",
-  "screenshot-timer.png",
   "screenshot-stats.png",
   "screenshot-settings.png",
 ];

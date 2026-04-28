@@ -3,25 +3,18 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const shots = [
   {
-    file: "screenshot-timer.png",
-    label: "Timer",
-    caption: "Today's focus, the ring, three modes.",
-    alt: "Breaks timer popover with focus 'Coding', 25:00 ready, focus/short/long mode picker",
-    span: "wide",
-  },
-  {
     file: "screenshot-stats.png",
     label: "Streaks",
     caption: "Heatmap, weekly review, pause budget.",
     alt: "Breaks stats page showing streak heatmap and weekly review",
-    span: "tall",
+    span: "half",
   },
   {
     file: "screenshot-settings.png",
     label: "Settings",
     caption: "Every knob, in one collapsible page.",
     alt: "Breaks settings panel with collapsible sections for timer, sound, hotkeys",
-    span: "tall",
+    span: "half",
   },
 ];
 ---
@@ -92,18 +85,10 @@ const shots = [
     gap: 0.85rem;
   }
   @media (min-width: 800px) {
-    .shot.wide {
+    .shot.half {
       grid-column: span 6;
-      grid-row: span 1;
-      transform: translateY(0);
     }
-    .shot.tall {
-      grid-column: span 3;
-    }
-    .shot.tall:nth-of-type(2) {
-      transform: translateY(-2rem);
-    }
-    .shot.tall:nth-of-type(3) {
+    .shot.half:nth-of-type(2) {
       transform: translateY(2.5rem);
     }
   }
