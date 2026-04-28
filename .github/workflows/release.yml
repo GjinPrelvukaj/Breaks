@@ -44,6 +44,8 @@ jobs:
             -derivedDataPath build/DD \
             MARKETING_VERSION="$VERSION" \
             CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+            ARCHS="arm64 x86_64" \
+            ONLY_ACTIVE_ARCH=NO \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
@@ -55,6 +57,8 @@ jobs:
         run: |
           APP="build/DD/Build/Products/Release/Breaks.app"
           codesign --force --deep --sign - "$APP"
+          echo "Architectures in built binary:"
+          lipo -archs "$APP/Contents/MacOS/Breaks"
           mkdir -p dist
           ZIP_NAME="Breaks-v${VERSION}-macOS.zip"
           ditto -c -k --keepParent "$APP" "dist/${ZIP_NAME}"
