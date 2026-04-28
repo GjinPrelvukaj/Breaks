@@ -1,0 +1,147 @@
+---
+const items = [
+  {
+    num: "01",
+    title: "Lives in the menu bar.",
+    body:
+      "No Dock clutter, no rogue window. A small icon, a quiet countdown, a popover when you actually want one. Global hotkeys for start, skip, and reset, even when Breaks isn't focused.",
+    pull: "Carbon hotkeys.",
+  },
+  {
+    num: "02",
+    title: "A focus journal you'll actually keep.",
+    body:
+      "Pick a focus for the day. Label each block. Mark it good, messy, or skipped, in a single tap during the break. Weekly review shows where the time went, in your own words.",
+    pull: "One tap, no friction.",
+  },
+  {
+    num: "03",
+    title: "Streaks that forgive a Tuesday.",
+    body:
+      "Each ISO week ships with a small pause-day budget. Miss a day, the streak doesn't crater. Skip a whole weekend, the math knows. Built for sustainable practice, not punishing perfection.",
+    pull: "Grace, by design.",
+  },
+];
+---
+
+<section id="features" class="features">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">What it is</span>
+      <h2 class="serif">
+        Three small ideas, executed with care.
+      </h2>
+    </header>
+
+    <ul class="grid">
+      {
+        items.map((it) => (
+          <li class="cell">
+            <span class="num">{it.num}</span>
+            <h3 class="serif h3">{it.title}</h3>
+            <p class="body">{it.body}</p>
+            <span class="pull">— {it.pull}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .features {
+    padding-block: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid var(--hair);
+  }
+  .head {
+    display: grid;
+    gap: 1rem;
+    max-width: 32ch;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .head h2 {
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-variation-settings: "opsz" 100, "SOFT" 70;
+  }
+
+  .grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: clamp(1rem, 3vw, 2rem);
+    row-gap: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .cell {
+    grid-column: span 12;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.25rem;
+    row-gap: 0.6rem;
+    align-items: start;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--hair);
+  }
+  @media (min-width: 760px) {
+    .grid {
+      row-gap: 0;
+    }
+    .cell {
+      grid-column: span 4;
+      grid-template-columns: 1fr;
+      padding-right: 1.25rem;
+    }
+    .cell + .cell {
+      border-left: 1px solid var(--hair);
+      padding-left: clamp(1rem, 2vw, 1.6rem);
+    }
+  }
+
+  .num {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    color: var(--amber);
+    grid-row: 1;
+  }
+  @media (min-width: 760px) {
+    .num {
+      margin-bottom: 0.6rem;
+    }
+  }
+
+  .h3 {
+    font-size: clamp(1.25rem, 1.8vw, 1.55rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    font-weight: 500;
+    font-variation-settings: "opsz" 36, "SOFT" 70;
+    grid-column: 2;
+  }
+  .body {
+    color: var(--ink-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 42ch;
+    grid-column: 2;
+  }
+  .pull {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--amber);
+    grid-column: 2;
+    margin-top: 0.4rem;
+    font-variation-settings: "opsz" 36;
+  }
+  @media (min-width: 760px) {
+    .h3,
+    .body,
+    .pull {
+      grid-column: auto;
+    }
+  }
+</style>

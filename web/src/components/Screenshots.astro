@@ -1,0 +1,157 @@
+---
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const shots = [
+  {
+    file: "screenshot-timer.png",
+    label: "Timer",
+    caption: "Today's focus, the ring, three modes.",
+    alt: "Breaks timer popover with focus 'Coding', 25:00 ready, focus/short/long mode picker",
+    span: "wide",
+  },
+  {
+    file: "screenshot-stats.png",
+    label: "Streaks",
+    caption: "Heatmap, weekly review, pause budget.",
+    alt: "Breaks stats page showing streak heatmap and weekly review",
+    span: "tall",
+  },
+  {
+    file: "screenshot-settings.png",
+    label: "Settings",
+    caption: "Every knob, in one collapsible page.",
+    alt: "Breaks settings panel with collapsible sections for timer, sound, hotkeys",
+    span: "tall",
+  },
+];
+---
+
+<section id="screens" class="screens">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">A look around</span>
+      <h2 class="serif">
+        Designed for the corner of your eye.
+      </h2>
+    </header>
+
+    <div class="gallery">
+      {
+        shots.map((s, i) => (
+          <figure class={`shot ${s.span}`}>
+            <span class="tag">
+              <span class="tag-num">{String(i + 1).padStart(2, "0")}</span>
+              <span class="tag-label">{s.label}</span>
+            </span>
+            <div class="frame">
+              <img
+                src={`${BASE}/media/${s.file}`}
+                alt={s.alt}
+                width="732"
+                height="1100"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption>{s.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .screens {
+    padding-block: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid var(--hair);
+  }
+  .head {
+    display: grid;
+    gap: 1rem;
+    max-width: 30ch;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .head h2 {
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-variation-settings: "opsz" 100, "SOFT" 70;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    align-items: end;
+  }
+  .shot {
+    grid-column: span 12;
+    display: grid;
+    gap: 0.85rem;
+  }
+  @media (min-width: 800px) {
+    .shot.wide {
+      grid-column: span 6;
+      grid-row: span 1;
+      transform: translateY(0);
+    }
+    .shot.tall {
+      grid-column: span 3;
+    }
+    .shot.tall:nth-of-type(2) {
+      transform: translateY(-2rem);
+    }
+    .shot.tall:nth-of-type(3) {
+      transform: translateY(2.5rem);
+    }
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    color: var(--ink-mute);
+  }
+  .tag-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--amber);
+  }
+  .tag-label {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    font-variation-settings: "opsz" 24;
+  }
+
+  .frame {
+    border: 1px solid var(--hair);
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(80% 60% at 50% 0%, rgba(212, 164, 92, 0.08), transparent 60%),
+      var(--bg-elev);
+    padding: clamp(0.6rem, 1.5vw, 1rem);
+    box-shadow:
+      0 1px 0 var(--hair-strong) inset,
+      0 30px 60px -30px rgba(0, 0, 0, 0.6);
+  }
+  .frame img {
+    border-radius: 8px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  figcaption {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-dim);
+    font-variation-settings: "opsz" 36;
+  }
+</style>

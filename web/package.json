@@ -1,0 +1,24 @@
+{
+  "name": "breaks-web",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "prebuild": "node scripts/copy-media.mjs",
+    "predev": "node scripts/copy-media.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "@fontsource-variable/fraunces": "^5.1.1",
+    "@fontsource/geist-mono": "^5.1.1",
+    "@fontsource/geist-sans": "^5.1.1",
+    "astro": "^5.1.1"
+  },
+  "devDependencies": {
+    "lightningcss": "^1.32.0"
+  }
+}

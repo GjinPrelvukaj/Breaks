@@ -1,0 +1,138 @@
+---
+---
+
+<section id="install" class="install">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">First launch</span>
+      <h2 class="serif">
+        Drag, right-click, open. Done in twenty seconds.
+      </h2>
+      <p class="lede">
+        Breaks isn't notarized yet. Apple charges <em>$99 a year</em> for that
+        and this is a free side project. macOS will warn you the first time;
+        the workaround is small and one-off.
+      </p>
+    </header>
+
+    <ol class="steps">
+      <li>
+        <span class="step-num">i.</span>
+        <div>
+          <h3 class="serif">Download the zip.</h3>
+          <p>
+            From the <a href="https://github.com/GjinPrelvukaj/Breaks/releases/latest" rel="noopener">latest release</a>.
+            Universal binary, around one megabyte zipped.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="step-num">ii.</span>
+        <div>
+          <h3 class="serif">Move it to <code>/Applications</code>.</h3>
+          <p>Same as any other Mac app. Drag and drop.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step-num">iii.</span>
+        <div>
+          <h3 class="serif">Right-click → Open.</h3>
+          <p>
+            On first launch only. macOS shows a dialog; click <strong>Open</strong>.
+            After that it launches normally, forever.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="step-num">iv.</span>
+        <div>
+          <h3 class="serif">Or: skip the prompt entirely.</h3>
+          <p>One line in Terminal removes the quarantine flag:</p>
+<pre><code>xattr -dr com.apple.quarantine /Applications/Breaks.app</code></pre>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .install {
+    padding-block: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid var(--hair);
+  }
+  .head {
+    display: grid;
+    gap: 1rem;
+    max-width: 56ch;
+    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .head h2 {
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-variation-settings: "opsz" 100, "SOFT" 70;
+  }
+  .head em {
+    font-style: italic;
+    color: var(--amber);
+  }
+  .lede {
+    color: var(--ink-dim);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: clamp(1.5rem, 2.5vw, 2rem);
+    counter-reset: step;
+    max-width: 70ch;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: 3.2rem 1fr;
+    column-gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--hair);
+  }
+  .steps li:last-child {
+    border-bottom: 0;
+  }
+  .step-num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--amber);
+    font-variation-settings: "opsz" 144;
+    padding-top: 0.15em;
+  }
+  .steps h3 {
+    font-size: 1.18rem;
+    line-height: 1.3;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    font-variation-settings: "opsz" 36;
+    letter-spacing: -0.01em;
+  }
+  .steps p {
+    color: var(--ink-dim);
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+  .steps a {
+    color: var(--amber);
+    border-bottom: 1px solid color-mix(in srgb, var(--amber) 40%, transparent);
+    transition: border-color 0.15s ease;
+  }
+  .steps a:hover {
+    border-color: var(--amber);
+  }
+  .steps pre {
+    margin-top: 0.6rem;
+  }
+</style>

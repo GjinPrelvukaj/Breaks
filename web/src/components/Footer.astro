@@ -1,0 +1,138 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap inner">
+    <div class="left">
+      <span class="serif mark">Breaks</span>
+      <p class="line">
+        A small, opinionated Pomodoro for macOS. Built by one person who needed it.
+      </p>
+    </div>
+    <nav class="links">
+      <div class="col">
+        <span class="col-title">App</span>
+        <a href="https://github.com/GjinPrelvukaj/Breaks/releases/latest" rel="noopener">Download</a>
+        <a href="https://github.com/GjinPrelvukaj/Breaks">Source code</a>
+        <a href="https://github.com/users/GjinPrelvukaj/projects/1" rel="noopener">Roadmap</a>
+      </div>
+      <div class="col">
+        <span class="col-title">Author</span>
+        <a href="https://github.com/GjinPrelvukaj" rel="noopener">GjinPrelvukaj</a>
+        <a href="https://github.com/GjinPrelvukaj/Breaks/issues" rel="noopener">Report a bug</a>
+      </div>
+      <div class="col">
+        <span class="col-title">Legal</span>
+        <a href="https://github.com/GjinPrelvukaj/Breaks/blob/main/LICENSE" rel="noopener">MIT License</a>
+        <span class="muted">No tracking. No cookies.</span>
+      </div>
+    </nav>
+  </div>
+  <div class="wrap colophon">
+    <span>© {year} Gjin Prelvukaj.</span>
+    <span class="dot">·</span>
+    <span class="serif italic">Set in Fraunces &amp; Geist.</span>
+    <span class="dot">·</span>
+    <a href="https://github.com/GjinPrelvukaj/Breaks" rel="noopener">v1.0</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--hair);
+    padding-block: clamp(3rem, 6vw, 4.5rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(212, 164, 92, 0.04) 100%);
+  }
+  .inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+  @media (min-width: 760px) {
+    .inner {
+      grid-template-columns: 1.2fr 1.8fr;
+    }
+  }
+
+  .left {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 36ch;
+  }
+  .mark {
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 36, "SOFT" 70;
+  }
+  .line {
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+  @media (max-width: 540px) {
+    .links {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .col {
+    display: grid;
+    gap: 0.55rem;
+  }
+  .col-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+  .col a {
+    color: var(--ink-dim);
+    font-size: 0.93rem;
+    transition: color 0.15s ease;
+  }
+  .col a:hover {
+    color: var(--ink);
+  }
+  .muted {
+    color: var(--ink-mute);
+    font-size: 0.85rem;
+  }
+
+  .colophon {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--hair);
+    color: var(--ink-mute);
+    font-size: 0.82rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .colophon .dot {
+    opacity: 0.5;
+  }
+  .colophon a {
+    color: var(--ink-dim);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+  }
+  .colophon a:hover {
+    border-color: var(--hair-strong);
+  }
+  .italic {
+    font-style: italic;
+    font-variation-settings: "opsz" 24;
+  }
+</style>
