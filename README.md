@@ -4,6 +4,10 @@ A small Pomodoro app that lives in your Mac menu bar.
 
 I built Breaks because every other timer either nagged me too much, hid in a Dock icon I never wanted, or treated breaks as an afterthought. This one is the opposite. It's quiet, it remembers what you were focused on, and it actually cares whether the break was any good.
 
+<p align="center">
+  <img src="docs/screenshot-timer.png" alt="Breaks popover open from the menu bar" width="420">
+</p>
+
 ![Platform](https://img.shields.io/badge/platform-macOS%2013%2B-blue)
 ![Swift](https://img.shields.io/badge/Swift-5.0-orange)
 ![SwiftUI](https://img.shields.io/badge/UI-SwiftUI-purple)
