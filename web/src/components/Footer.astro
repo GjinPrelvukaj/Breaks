@@ -55,6 +55,12 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
       </nav>
     </div>
 
+    <div class="ph-badge">
+      <a href="https://www.producthunt.com/products/breaks?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaks" target="_blank" rel="noopener noreferrer">
+        <img alt="Breaks - A quiet Pomodoro that lives in your menu bar. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1135045&theme=dark&t=1777457810147" />
+      </a>
+    </div>
+
     <div class="colophon">
       <span>© {year} Gjin Prelvukaj.</span>
       <span class="dot" aria-hidden="true">·</span>
@@ -165,6 +171,10 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
   .muted {
     color: var(--ink-mute);
     font-size: 0.85rem;
+  }
+
+  .ph-badge {
+    margin-top: 1.5rem;
   }
 
   .colophon {
