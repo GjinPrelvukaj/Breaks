@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-04-30
+
+### Removed
+- Focus / Do Not Disturb shortcut automation. The Shortcuts URL bridge was a workaround — macOS has no public API for an app to toggle Focus directly, so the feature is gone rather than papered over.
+
 ## [1.2.0] - 2026-04-29
 
 ### Added

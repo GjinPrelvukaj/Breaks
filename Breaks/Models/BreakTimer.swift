@@ -58,7 +58,6 @@ final class BreakTimer: ObservableObject {
     let suggestions = BreakSuggestionLibrary()
     let calendarExporter = CalendarExporter()
     let projects = FocusProjectLibrary()
-    let focusAutomation = FocusAutomationController()
 
     @Published private(set) var mode: Mode
     @Published private(set) var duration: Int
@@ -171,9 +170,6 @@ final class BreakTimer: ObservableObject {
         endDate = Date().addingTimeInterval(TimeInterval(remaining))
         scheduleTicker()
         persistTimerState()
-        if mode == .work, settings.focusAutomationEnabled {
-            _ = focusAutomation.runStart(named: settings.focusOnShortcutName)
-        }
     }
 
     func pause() {
@@ -181,9 +177,6 @@ final class BreakTimer: ObservableObject {
         syncRemaining()
         stopTicker()
         persistTimerState()
-        if mode == .work, settings.focusAutomationEnabled, settings.focusAutomationStopsOnBreak {
-            focusAutomation.runStopIfStarted(named: settings.focusOffShortcutName)
-        }
     }
 
     func reset() {
@@ -194,11 +187,7 @@ final class BreakTimer: ObservableObject {
 
     func skip() {
         let wasRunning = isRunning
-        let wasWork = mode == .work
         stopTicker()
-        if wasWork, settings.focusAutomationEnabled, settings.focusAutomationStopsOnBreak {
-            focusAutomation.runStopIfStarted(named: settings.focusOffShortcutName)
-        }
         advanceMode()
         if wasRunning { start() }
     }
@@ -319,9 +308,6 @@ final class BreakTimer: ObservableObject {
             completedWorkSessions += 1
             history.addCompletion()
             journal.recordCompletedWork(minutes: settings.workMinutes)
-            if settings.focusAutomationEnabled, settings.focusAutomationStopsOnBreak {
-                focusAutomation.runStopIfStarted(named: settings.focusOffShortcutName)
-            }
             if settings.calendarExportEnabled {
                 calendarExporter.exportCompletedSession(
                     title: journal.effectiveBlockLabel,

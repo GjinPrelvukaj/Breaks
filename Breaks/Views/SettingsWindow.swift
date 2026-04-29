@@ -125,8 +125,7 @@ struct SettingsWindow: View {
             MiscTab(
                 settings: timer.settings,
                 library: timer.suggestions,
-                calendar: timer.calendarExporter,
-                focusAutomation: timer.focusAutomation
+                calendar: timer.calendarExporter
             )
         }
     }
@@ -572,7 +571,6 @@ private struct MiscTab: View {
     @ObservedObject var settings: TimerSettings
     @ObservedObject var library: BreakSuggestionLibrary
     @ObservedObject var calendar: CalendarExporter
-    @ObservedObject var focusAutomation: FocusAutomationController
     @StateObject private var permissions = NotificationPermissions()
 
     var body: some View {
@@ -584,48 +582,6 @@ private struct MiscTab: View {
                           value: $settings.idleThresholdMinutes,
                           range: 1...30,
                           suffix: "min")
-            }
-
-            Section("Focus automation") {
-                Toggle("Run Focus shortcut during work sessions", isOn: $settings.focusAutomationEnabled)
-                    .toggleStyle(.switch)
-                if settings.focusAutomationEnabled {
-                    HStack {
-                        Text("Start shortcut")
-                        Spacer()
-                        TextField("Breaks Focus On", text: $settings.focusOnShortcutName)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 200)
-                    }
-                    HStack {
-                        Text("Stop shortcut")
-                        Spacer()
-                        TextField("Breaks Focus Off", text: $settings.focusOffShortcutName)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 200)
-                    }
-                    Toggle("Run stop shortcut when work ends", isOn: $settings.focusAutomationStopsOnBreak)
-                        .toggleStyle(.switch)
-                    HStack(spacing: 6) {
-                        Button("Test start") {
-                            focusAutomation.runShortcut(named: settings.focusOnShortcutName)
-                        }
-                        Button("Test stop") {
-                            focusAutomation.runShortcut(named: settings.focusOffShortcutName)
-                        }
-                        Spacer()
-                    }
-                    if let err = focusAutomation.lastError {
-                        Text(err)
-                            .font(.caption2)
-                            .foregroundStyle(.red)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                }
-                Text("Create the shortcuts in the Shortcuts app first. Use Set Focus / Turn Focus Off actions.")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Section("Calendar export") {
