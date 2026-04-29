@@ -1,0 +1,151 @@
+---
+
+---
+
+<div class="fab-wrap" id="fab-wrap">
+  <div class="fab-panel glass" id="fab-panel" aria-hidden="true">
+    <a
+      href="https://github.com/sponsors/GjinPrelvukaj"
+      target="_blank"
+      rel="noopener"
+      class="fab-link"
+    >
+      <svg
+        class="fab-icon"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+        ></path>
+      </svg>
+      <span>Sponsor on GitHub</span>
+    </a>
+  </div>
+
+  <button
+    class="fab-btn"
+    id="fab-btn"
+    aria-label="Support Breaks"
+    aria-expanded="false"
+  >
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path
+        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+      ></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .fab-wrap {
+    position: fixed;
+    bottom: 1.75rem;
+    right: 1.75rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .fab-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    min-width: 200px;
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+    pointer-events: none;
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+  }
+  .fab-panel.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .fab-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    color: var(--ink-dim);
+    font-size: 0.88rem;
+    font-family: var(--sans);
+    transition:
+      background 0.12s ease,
+      color 0.12s ease;
+    border-bottom: 1px solid var(--hair);
+  }
+  .fab-link:last-child {
+    border-bottom: none;
+  }
+  .fab-link:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--ink);
+  }
+
+  .fab-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: var(--ink-mute);
+  }
+  .fab-link:hover .fab-icon {
+    color: var(--ink-dim);
+  }
+
+  .fab-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #0a0a0a;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    transition:
+      transform 0.12s ease,
+      background 0.15s ease;
+    flex-shrink: 0;
+  }
+  .fab-btn:hover {
+    background: #ffffff;
+    transform: scale(1.06);
+  }
+  .fab-btn:active {
+    transform: scale(0.97);
+  }
+  .fab-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+</style>
+
+<script>
+  const btn = document.getElementById("fab-btn")!;
+  const panel = document.getElementById("fab-panel")!;
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = panel.classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(open));
+    panel.setAttribute("aria-hidden", String(!open));
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!document.getElementById("fab-wrap")!.contains(e.target as Node)) {
+      panel.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+      panel.setAttribute("aria-hidden", "true");
+    }
+  });
+</script>

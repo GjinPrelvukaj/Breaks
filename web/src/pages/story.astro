@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Footer from "../components/Footer.astro";
+import Prose from "../components/Prose.astro";
+---
+
+<Layout
+  title="Why I built Breaks"
+  description="Breaks started as a frustration with noisy tools. A quiet menu-bar Pomodoro for people who just want to focus."
+  canonicalPath="/story"
+>
+  <SiteHeader />
+  <main>
+    <Prose
+      eyebrow="Story"
+      title="Built for the tab-closer in all of us."
+      updated="April 2026"
+    >
+      <p>
+        Most productivity tools have a problem: they want your attention. Dashboard
+        apps, streak notifications, gamified interfaces — the tools meant to help
+        you focus end up competing for the same focus they're supposed to protect.
+      </p>
+
+      <p>
+        I wanted a Pomodoro timer that did the opposite. One that lived quietly in
+        the menu bar, showed you a countdown, and got out of the way. No onboarding
+        flows. No accounts. No cloud sync. Just a timer.
+      </p>
+
+      <h2>The gap</h2>
+
+      <p>
+        The existing options fell into two categories. Big apps with feature lists
+        longer than your to-do list — calendar integrations, analytics dashboards,
+        team sync, AI suggestions. And tiny utilities that worked fine but looked
+        like they were built in an afternoon and hadn't been touched since.
+      </p>
+
+      <p>
+        Neither felt right. I wanted something small but considered. Something that
+        respected the philosophy it was built on: that deep work needs fewer
+        interruptions, not more interfaces.
+      </p>
+
+      <h2>What I built</h2>
+
+      <p>
+        Breaks is a menu-bar Pomodoro for macOS. It cycles through work sessions
+        and breaks, logs each session to a focus journal, and tracks daily streaks.
+        Global hotkeys let you start, skip, or reset a session without ever opening
+        a window. Notifications fire when it's time to move — delivered locally by
+        macOS, no push server required.
+      </p>
+
+      <p>
+        It's sandboxed, ships with no network entitlements, and stores everything
+        in <code>UserDefaults</code> on your Mac. There's no account, no backend,
+        no telemetry. Your focus data is yours.
+      </p>
+
+      <h2>Shipped and using it daily</h2>
+
+      <p>
+        Breaks is free and open source under the MIT license. I use it every day.
+        If you find a bug or want to suggest something, open an issue on
+        <a href="https://github.com/GjinPrelvukaj/Breaks/issues" rel="noopener">GitHub</a> —
+        that's where the project lives.
+      </p>
+
+      <p>
+        If it saves you a few context switches, it's done its job.
+      </p>
+    </Prose>
+  </main>
+  <Footer />
+</Layout>
