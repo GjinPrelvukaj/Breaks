@@ -11,14 +11,12 @@ struct TimerPopover: View {
     @ObservedObject var timer: BreakTimer
     @ObservedObject var settings: TimerSettings
     @ObservedObject var hotkeyManager: HotkeyManager
-    @State private var showingSettings = false
     @State private var showingStats = false
 
-    private enum Page: Hashable { case onboarding, stats, settings, timer }
+    private enum Page: Hashable { case onboarding, stats, timer }
     private var currentPage: Page {
         if !settings.hasCompletedOnboarding { return .onboarding }
         if showingStats { return .stats }
-        if showingSettings { return .settings }
         return .timer
     }
 
@@ -29,16 +27,13 @@ struct TimerPopover: View {
                 OnboardingView(settings: settings, journal: timer.journal)
                     .transition(pageTransition(forward: true))
             case .stats:
-                StatsView(history: timer.history, journal: timer.journal, settings: settings, showing: $showingStats)
+                StatsView(history: timer.history, journal: timer.journal, settings: settings, projects: timer.projects, showing: $showingStats)
                     .transition(pageTransition(forward: false))
-            case .settings:
-                SettingsPanel(settings: settings, hotkeyManager: hotkeyManager, library: timer.suggestions, calendar: timer.calendarExporter, showing: $showingSettings)
-                    .transition(pageTransition(forward: true))
             case .timer:
                 TimerContent(timer: timer,
                              journal: timer.journal,
                              settings: settings,
-                             showingSettings: $showingSettings,
+                             projects: timer.projects,
                              showingStats: $showingStats)
                     .transition(pageTransition(forward: false))
             }

@@ -23,14 +23,32 @@ struct FocusBlockLog: Codable, Identifiable {
     let label: String
     let minutes: Int
     var outcome: FocusOutcome
+    let projectID: UUID?
+    let projectName: String?
 
-    init(id: UUID = UUID(), date: Date, label: String, minutes: Int, outcome: FocusOutcome) {
+    init(id: UUID = UUID(),
+         date: Date,
+         label: String,
+         minutes: Int,
+         outcome: FocusOutcome,
+         projectID: UUID? = nil,
+         projectName: String? = nil) {
         self.id = id
         self.date = date
         self.label = label
         self.minutes = minutes
         self.outcome = outcome
+        self.projectID = projectID
+        self.projectName = projectName
     }
+}
+
+struct ProjectBreakdown: Identifiable, Equatable {
+    let projectID: UUID?
+    let projectName: String
+    let minutes: Int
+    let blocks: Int
+    var id: String { projectID?.uuidString ?? "__no_project__" }
 }
 
 struct WeeklyFocusDay: Identifiable {
@@ -47,6 +65,7 @@ private struct FocusJournalState: Codable {
     var currentBlockLabel: String
     var previousFocus: String?
     var blockLogs: [FocusBlockLog]
+    var currentProjectID: UUID?
 }
 
 @MainActor
@@ -58,6 +77,8 @@ final class FocusJournal: ObservableObject {
     @Published var previousFocus: String? { didSet { save() } }
     @Published private(set) var blockLogs: [FocusBlockLog] { didSet { save() } }
     @Published private(set) var pendingBlock: FocusBlockLog?
+    @Published var currentProjectID: UUID? { didSet { save() } }
+    weak var projectLibrary: FocusProjectLibrary?
 
     private let ud = UserDefaults.shared
     private let key = "focusJournalState"
@@ -74,6 +95,7 @@ final class FocusJournal: ObservableObject {
                 currentBlockLabel = state.currentBlockLabel
                 previousFocus = state.previousFocus
                 blockLogs = state.blockLogs
+                currentProjectID = state.currentProjectID
             } else {
                 let lastFocus = state.priorities.first(where: { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty })
                     ?? state.currentBlockLabel.nilIfBlank
@@ -83,6 +105,7 @@ final class FocusJournal: ObservableObject {
                 currentBlockLabel = lastFocus ?? ""
                 previousFocus = lastFocus
                 blockLogs = state.blockLogs
+                currentProjectID = state.currentProjectID
             }
         } else {
             day = today
@@ -91,6 +114,7 @@ final class FocusJournal: ObservableObject {
             currentBlockLabel = ""
             previousFocus = nil
             blockLogs = []
+            currentProjectID = nil
         }
         trimLogs()
         save()
@@ -140,7 +164,15 @@ final class FocusJournal: ObservableObject {
     }
 
     func recordCompletedWork(minutes: Int) {
-        pendingBlock = FocusBlockLog(date: Date(), label: effectiveBlockLabel, minutes: minutes, outcome: .good)
+        let project = projectLibrary?.project(for: currentProjectID)
+        pendingBlock = FocusBlockLog(
+            date: Date(),
+            label: effectiveBlockLabel,
+            minutes: minutes,
+            outcome: .good,
+            projectID: project?.id,
+            projectName: project?.name
+        )
         save()
     }
 
@@ -205,6 +237,42 @@ final class FocusJournal: ObservableObject {
             .map { (label: $0.key, count: $0.value) }
     }
 
+    func topProjectsThisWeek(limit: Int = 4) -> [(projectName: String, minutes: Int, blocks: Int)] {
+        weeklyProjectBreakdown()
+            .prefix(limit)
+            .map { (projectName: $0.projectName, minutes: $0.minutes, blocks: $0.blocks) }
+    }
+
+    func weeklyProjectBreakdown() -> [ProjectBreakdown] {
+        let calendar = Calendar.current
+        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date())) else {
+            return []
+        }
+        struct Bucket { var name: String; var minutes: Int = 0; var blocks: Int = 0 }
+        var buckets: [UUID?: Bucket] = [:]
+        for log in blockLogs where log.date >= startOfWeek && log.outcome != .skipped {
+            let resolvedName: String
+            if let id = log.projectID, let live = projectLibrary?.project(for: id) {
+                resolvedName = live.name
+            } else if let pname = log.projectName, !pname.isEmpty {
+                resolvedName = pname
+            } else {
+                resolvedName = "No Project"
+            }
+            var bucket = buckets[log.projectID] ?? Bucket(name: resolvedName)
+            bucket.name = resolvedName
+            bucket.minutes += log.minutes
+            bucket.blocks += 1
+            buckets[log.projectID] = bucket
+        }
+        return buckets
+            .map { ProjectBreakdown(projectID: $0.key, projectName: $0.value.name, minutes: $0.value.minutes, blocks: $0.value.blocks) }
+            .sorted { lhs, rhs in
+                if lhs.minutes != rhs.minutes { return lhs.minutes > rhs.minutes }
+                return lhs.projectName < rhs.projectName
+            }
+    }
+
     private func trimLogs() {
         let cutoff = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
         blockLogs = blockLogs.filter { $0.date >= cutoff }
@@ -217,7 +285,8 @@ final class FocusJournal: ObservableObject {
             dailyGoal: dailyGoal,
             currentBlockLabel: currentBlockLabel,
             previousFocus: previousFocus,
-            blockLogs: blockLogs
+            blockLogs: blockLogs,
+            currentProjectID: currentProjectID
         )
         if let data = try? JSONEncoder().encode(state) {
             ud.set(data, forKey: key)

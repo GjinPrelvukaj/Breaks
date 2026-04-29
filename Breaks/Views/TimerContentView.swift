@@ -14,7 +14,7 @@ struct TimerContent: View {
     @ObservedObject var timer: BreakTimer
     @ObservedObject var journal: FocusJournal
     @ObservedObject var settings: TimerSettings
-    @Binding var showingSettings: Bool
+    @ObservedObject var projects: FocusProjectLibrary
     @Binding var showingStats: Bool
     @State private var showResetConfirm = false
 
@@ -27,8 +27,10 @@ struct TimerContent: View {
             } else {
                 TodayDashboard(
                     journal: journal,
+                    projects: projects,
                     completed: timer.history.totalToday(),
                     accentColor: settings.accentColor,
+                    openProjectSettings: { SettingsWindowOpener.open() },
                     resetToday: { timer.resetToday() }
                 )
             }
@@ -133,14 +135,22 @@ struct TimerContent: View {
             .buttonStyle(ToolbarIconStyle())
             .help("Statistics")
             Spacer()
-            Button { showingSettings = true } label: {
-                Image(systemName: "gearshape")
-                    .foregroundStyle(.secondary)
-                    .font(.system(size: 13, weight: .medium))
-            }
-            .buttonStyle(ToolbarIconStyle())
-            .help("Settings")
-            .keyboardShortcut(",", modifiers: [.command])
+            settingsButton
+                .buttonStyle(ToolbarIconStyle())
+                .help("Settings")
+                .keyboardShortcut(",", modifiers: [.command])
+        }
+    }
+
+    @ViewBuilder
+    private var settingsButton: some View {
+        let icon = Image(systemName: "gearshape")
+            .foregroundStyle(.secondary)
+            .font(.system(size: 13, weight: .medium))
+        if #available(macOS 14.0, *) {
+            SettingsLink { icon }
+        } else {
+            Button { SettingsWindowOpener.open() } label: { icon }
         }
     }
 
@@ -247,8 +257,10 @@ struct MorningCheckIn: View {
 
 struct TodayDashboard: View {
     @ObservedObject var journal: FocusJournal
+    @ObservedObject var projects: FocusProjectLibrary
     let completed: Int
     let accentColor: Color
+    let openProjectSettings: () -> Void
     let resetToday: () -> Void
     @State private var expanded = false
     @State private var focusDraft = ""
@@ -354,6 +366,66 @@ struct TodayDashboard: View {
             TextField("This block is for…", text: $journal.currentBlockLabel)
                 .textFieldStyle(.roundedBorder)
                 .controlSize(.small)
+
+            HStack(spacing: 6) {
+                Text("Project")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Menu {
+                    Button {
+                        journal.currentProjectID = nil
+                    } label: {
+                        if journal.currentProjectID == nil {
+                            Label("No Project", systemImage: "checkmark")
+                        } else {
+                            Text("No Project")
+                        }
+                    }
+                    if !projects.activeProjects.isEmpty {
+                        Divider()
+                        ForEach(projects.activeProjects) { project in
+                            Button {
+                                journal.currentProjectID = project.id
+                            } label: {
+                                if journal.currentProjectID == project.id {
+                                    Label(project.name, systemImage: "checkmark")
+                                } else {
+                                    Text(project.name)
+                                }
+                            }
+                        }
+                    }
+                    Divider()
+                    if #available(macOS 14.0, *) {
+                        SettingsLink {
+                            Text("Manage Projects…")
+                        }
+                    } else {
+                        Button("Manage Projects…") {
+                            openProjectSettings()
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 4) {
+                        if let project = projects.project(for: journal.currentProjectID) {
+                            if let color = project.color {
+                                Circle().fill(color).frame(width: 8, height: 8)
+                            }
+                            Text(project.name)
+                        } else {
+                            Text("No Project")
+                                .foregroundStyle(.secondary)
+                        }
+                        Image(systemName: "chevron.up.chevron.down")
+                            .font(.system(size: 9))
+                            .foregroundStyle(.secondary)
+                    }
+                    .font(.caption)
+                }
+                .menuStyle(.borderlessButton)
+                .fixedSize()
+            }
 
             HStack {
                 Button {

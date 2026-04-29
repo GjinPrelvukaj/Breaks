@@ -24,6 +24,19 @@ struct BreaksApp: App {
             MenuBarLabel(timer: timer, clock: timer.clock)
         }
         .menuBarExtraStyle(.window)
+
+        Settings {
+            SettingsWindow(timer: timer, hotkeyManager: hotkeyManager)
+                .tint(timer.settings.accentColor)
+        }
+    }
+}
+
+enum SettingsWindowOpener {
+    static func open() {
+        NSApp.activate(ignoringOtherApps: true)
+        if NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil) { return }
+        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
     }
 }
 

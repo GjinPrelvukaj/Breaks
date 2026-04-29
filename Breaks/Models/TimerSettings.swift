@@ -40,6 +40,10 @@ final class TimerSettings: ObservableObject {
     @Published var resetHotkeyModifiers: Int { didSet { ud.set(resetHotkeyModifiers, forKey: "resetHotkeyModifiers") } }
     @Published var calendarExportEnabled: Bool { didSet { ud.set(calendarExportEnabled, forKey: "calendarExportEnabled") } }
     @Published var calendarExportIdentifier: String { didSet { ud.set(calendarExportIdentifier, forKey: "calendarExportIdentifier") } }
+    @Published var focusAutomationEnabled: Bool { didSet { ud.set(focusAutomationEnabled, forKey: "focusAutomationEnabled") } }
+    @Published var focusOnShortcutName: String { didSet { ud.set(focusOnShortcutName, forKey: "focusOnShortcutName") } }
+    @Published var focusOffShortcutName: String { didSet { ud.set(focusOffShortcutName, forKey: "focusOffShortcutName") } }
+    @Published var focusAutomationStopsOnBreak: Bool { didSet { ud.set(focusAutomationStopsOnBreak, forKey: "focusAutomationStopsOnBreak") } }
     @Published private(set) var launchAtLogin: Bool
     @Published private(set) var loginItemError: String?
 
@@ -69,6 +73,10 @@ final class TimerSettings: ObservableObject {
         resetHotkeyModifiers = (ud.object(forKey: "resetHotkeyModifiers") as? Int) ?? Int(cmdKey + optionKey)
         calendarExportEnabled = (ud.object(forKey: "calendarExportEnabled") as? Bool) ?? false
         calendarExportIdentifier = (ud.object(forKey: "calendarExportIdentifier") as? String) ?? ""
+        focusAutomationEnabled = (ud.object(forKey: "focusAutomationEnabled") as? Bool) ?? false
+        focusOnShortcutName = (ud.object(forKey: "focusOnShortcutName") as? String) ?? "Breaks Focus On"
+        focusOffShortcutName = (ud.object(forKey: "focusOffShortcutName") as? String) ?? "Breaks Focus Off"
+        focusAutomationStopsOnBreak = (ud.object(forKey: "focusAutomationStopsOnBreak") as? Bool) ?? true
         launchAtLogin    = LoginItemController.isEnabled
     }
 

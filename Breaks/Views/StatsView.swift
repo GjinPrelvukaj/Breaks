@@ -219,6 +219,7 @@ struct StatsView: View {
     @ObservedObject var history: SessionHistory
     @ObservedObject var journal: FocusJournal
     @ObservedObject var settings: TimerSettings
+    @ObservedObject var projects: FocusProjectLibrary
     @Binding var showing: Bool
     private var snapshot: StreakSnapshot {
         history.streakSnapshot(pauseDayBudget: settings.pauseDaysPerWeek)
@@ -260,7 +261,7 @@ struct StatsView: View {
                 }
 
                 Divider()
-                WeeklyReviewView(history: history, journal: journal)
+                WeeklyReviewView(history: history, journal: journal, projects: projects)
                 Divider()
                 Text("Recent days")
                     .font(.caption.weight(.semibold))
@@ -304,6 +305,7 @@ struct StatsView: View {
 struct WeeklyReviewView: View {
     @ObservedObject var history: SessionHistory
     @ObservedObject var journal: FocusJournal
+    @ObservedObject var projects: FocusProjectLibrary
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -346,6 +348,29 @@ struct WeeklyReviewView: View {
                                 Capsule()
                                     .fill(Color.secondary.opacity(0.12))
                             )
+                    }
+                }
+            }
+            let breakdown = journal.weeklyProjectBreakdown()
+            if !breakdown.isEmpty {
+                Text("By project")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+                    .padding(.top, 2)
+                ForEach(breakdown) { item in
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(projects.project(for: item.projectID)?.color ?? Color.secondary.opacity(0.4))
+                            .frame(width: 7, height: 7)
+                        Text(item.projectName)
+                            .font(.caption2)
+                            .lineLimit(1)
+                        Spacer()
+                        Text("\(item.minutes)m · \(item.blocks)")
+                            .font(.caption2)
+                            .monospacedDigit()
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
