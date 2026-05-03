@@ -8,16 +8,16 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const blurbs = {
   oneliner: "A quiet menu-bar Pomodoro for macOS. Free, open source, no account needed.",
-  short: `Breaks is a menu-bar Pomodoro timer for macOS. It runs work sessions and breaks, keeps a focus journal, tracks streaks, and fires local notifications — all without an account, a backend, or network access. Sandboxed, MIT licensed, and free.`,
-  long: `Breaks is a small, focused Pomodoro app that lives in the macOS menu bar. It cycles through work sessions and breaks, logs each session to a focus journal, and tracks daily streaks with a pause-day budget so a missed day doesn't wipe your progress. Global hotkeys let you start, skip, or reset a session without opening a window. Notifications are delivered locally by macOS — no push server, no account, no email gate. Everything is stored on-device in UserDefaults. The app is sandboxed, ships with no network entitlements, and is free and open source under the MIT license. It requires macOS 13.0 or later.`,
+  short: `Breaks is a menu-bar Pomodoro timer for macOS. It runs work sessions and breaks, keeps a focus journal, tracks streaks, and fires local notifications, all without an account, a backend, or network access. Sandboxed, MIT licensed, and free.`,
+  long: `Breaks is a small, focused Pomodoro app that lives in the macOS menu bar. It cycles through work sessions and breaks, logs each session to a focus journal, and tracks daily streaks with a pause-day budget so a missed day doesn't wipe your progress. Global hotkeys let you start, skip, or reset a session without opening a window. Notifications are delivered locally by macOS, with no push server, no account, and no email gate. Everything is stored on-device in UserDefaults. The app is sandboxed, ships with no network entitlements, and is free and open source under the MIT license. It requires macOS 13.0 or later.`,
 };
 
 const assets = [
   { label: "App Icon",            file: "favicon.svg",            thumb: `${BASE}/favicon.svg`,                   width: 32,   height: 32   },
   { label: "Demo GIF",            file: "demo.gif",               thumb: `${BASE}/media/demo.gif`,                width: 1108, height: 720  },
-  { label: "Screenshot — Timer",  file: "screenshot-timer.png",   thumb: `${BASE}/media/screenshot-timer.png`,    width: 732,  height: 998  },
-  { label: "Screenshot — Stats",  file: "screenshot-stats.png",   thumb: `${BASE}/media/screenshot-stats.png`,    width: 732,  height: 1132 },
-  { label: "Screenshot — Settings", file: "screenshot-settings.png", thumb: `${BASE}/media/screenshot-settings.png`, width: 732, height: 1172 },
+  { label: "Screenshot · Timer",  file: "screenshot-timer.png",   thumb: `${BASE}/media/screenshot-timer.png`,    width: 732,  height: 998  },
+  { label: "Screenshot · Stats",  file: "screenshot-stats.png",   thumb: `${BASE}/media/screenshot-stats.png`,    width: 732,  height: 1132 },
+  { label: "Screenshot · Settings", file: "screenshot-settings.png", thumb: `${BASE}/media/screenshot-settings.png`, width: 732, height: 1172 },
 ];
 
 const facts = [
@@ -31,7 +31,7 @@ const facts = [
 ---
 
 <Layout
-  title="Press Kit — Breaks"
+  title="Press Kit · Breaks"
   description="Everything you need to write about Breaks: app blurbs, screenshots, GIF, app facts, and contact."
   canonicalPath="/press"
 >
