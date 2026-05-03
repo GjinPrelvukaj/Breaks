@@ -1,4 +1,17 @@
 import SwiftUI
+import AppKit
+
+private extension Color {
+    /// Returns black or white depending on the perceived luminance of the color.
+    /// Used so primary buttons stay legible on any user-picked accent.
+    var readableForeground: Color {
+        let nsColor = NSColor(self).usingColorSpace(.sRGB) ?? NSColor(self)
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        nsColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+        let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+        return luminance > 0.6 ? Color(red: 0.04, green: 0.04, blue: 0.04) : .white
+    }
+}
 
 struct PressableButtonStyle: ButtonStyle {
     var scale: CGFloat = 0.94
@@ -27,7 +40,7 @@ struct HapticPrimaryButtonStyle: ButtonStyle {
                             radius: configuration.isPressed ? 10 : 6,
                             y: configuration.isPressed ? 3 : 2)
             )
-            .foregroundStyle(.white)
+            .foregroundStyle(tint.readableForeground)
             .scaleEffect(configuration.isPressed ? 0.92 : (pulsing ? 1.04 : 1.0))
             .animation(.spring(response: 0.18, dampingFraction: 0.55), value: configuration.isPressed)
             .animation(.spring(response: 0.32, dampingFraction: 0.62), value: pulsing)

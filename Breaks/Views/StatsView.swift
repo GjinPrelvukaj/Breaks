@@ -13,11 +13,13 @@ struct StreakHeroCard: View {
     let snapshot: StreakSnapshot
     let accentColor: Color
 
-    private var pauseLabel: String {
-        if snapshot.pauseDayBudget == 0 {
-            return "No rest days"
+    private var pauseLabel: String? {
+        guard snapshot.pauseDayBudget > 0 else { return nil }
+        let remaining = max(0, snapshot.pauseDayBudget - snapshot.pauseDaysUsedThisWeek)
+        if remaining == snapshot.pauseDayBudget {
+            return "\(remaining) rest day\(remaining == 1 ? "" : "s") this week"
         }
-        return "\(snapshot.pauseDaysUsedThisWeek)/\(snapshot.pauseDayBudget) rest days used"
+        return "\(remaining) of \(snapshot.pauseDayBudget) rest day\(snapshot.pauseDayBudget == 1 ? "" : "s") left"
     }
 
     var body: some View {
@@ -36,19 +38,22 @@ struct StreakHeroCard: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                Text(pauseLabel)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                if let pauseLabel {
+                    Text(pauseLabel)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
                 Image(systemName: "flame.fill")
                     .font(.system(size: 28))
                     .foregroundStyle(accentColor.opacity(0.8))
-                Text("Decay, not reset")
+                Text("Miss a day, keep going")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+                    .help("Streak decays by 1 per missed day. Rest days absorb misses without breaking it.")
             }
         }
         .padding(12)
@@ -227,6 +232,7 @@ struct StatsView: View {
 
     var body: some View {
         let snap = snapshot
+        let hasData = !history.records.isEmpty || journal.focusedMinutesToday() > 0
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
                 ZStack {
@@ -246,44 +252,43 @@ struct StatsView: View {
                 }
                 Divider()
 
-                StreakHeroCard(snapshot: snap, accentColor: settings.accentColor)
+                if hasData {
+                    StreakHeroCard(snapshot: snap, accentColor: settings.accentColor)
 
-                StreakHeatmap(snapshot: snap, accentColor: settings.accentColor)
+                    StreakHeatmap(snapshot: snap, accentColor: settings.accentColor)
 
-                Divider()
+                    Divider()
 
-                VStack(alignment: .leading, spacing: 8) {
-                    StatRow(title: "Today", value: "\(history.totalToday())")
-                    StatRow(title: "Focused today", value: "\(journal.focusedMinutesToday())m")
-                    StatRow(title: "This week", value: "\(history.totalThisWeek())")
-                    StatRow(title: "Focus days", value: "\(journal.focusDaysThisWeek())")
-                    StatRow(title: "All time", value: "\(history.totalAllTime())")
-                }
-
-                Divider()
-                WeeklyReviewView(history: history, journal: journal, projects: projects)
-                Divider()
-                Text("Recent days")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                ForEach(history.records.prefix(7), id: \.date) { record in
-                    HStack {
-                        Text(record.date.formatted(date: .abbreviated, time: .omitted))
-                        Spacer()
-                        Text("\(record.completedSessions)")
-                            .monospacedDigit()
+                    VStack(alignment: .leading, spacing: 8) {
+                        StatRow(title: "Today", value: "\(history.totalToday())")
+                        StatRow(title: "Focused today", value: "\(journal.focusedMinutesToday())m")
+                        StatRow(title: "This week", value: "\(history.totalThisWeek())")
+                        StatRow(title: "Days with focus", value: "\(journal.focusDaysThisWeek())")
+                        StatRow(title: "All time", value: "\(history.totalAllTime())")
                     }
-                    .font(.caption)
-                }
-                if history.records.isEmpty {
-                    Text("No sessions yet. Start your first block.")
-                        .font(.caption)
+
+                    Divider()
+                    WeeklyReviewView(history: history, journal: journal, projects: projects)
+                    Divider()
+                    Text("Recent days")
+                        .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
+                    ForEach(history.records.prefix(7), id: \.date) { record in
+                        HStack {
+                            Text(record.date.formatted(date: .abbreviated, time: .omitted))
+                            Spacer()
+                            Text("\(record.completedSessions)")
+                                .monospacedDigit()
+                        }
+                        .font(.caption)
+                    }
+                } else {
+                    StatsEmptyState(accentColor: settings.accentColor)
                 }
             }
             .padding(16)
         }
-        .frame(height: 520)
+        .frame(height: hasData ? 520 : 360)
     }
 
     private struct StatRow: View {
@@ -720,5 +725,55 @@ struct AIJournalChatView: View {
         guard !trimmed.isEmpty else { return }
         question = ""
         chat.ask(trimmed, context: contextBuilder())
+    }
+}
+
+// MARK: - Empty State
+
+struct StatsEmptyState: View {
+    let accentColor: Color
+
+    var body: some View {
+        VStack(spacing: 14) {
+            ZStack {
+                Circle()
+                    .stroke(accentColor.opacity(0.18), lineWidth: 2)
+                    .frame(width: 64, height: 64)
+                Image(systemName: "chart.bar.xaxis")
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundStyle(accentColor.opacity(0.85))
+            }
+            VStack(spacing: 4) {
+                Text("Your stats start here")
+                    .font(.headline)
+                Text("Finish your first focus block and your streak, heatmap, and weekly review will show up.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            VStack(alignment: .leading, spacing: 6) {
+                emptyHint(symbol: "flame.fill", text: "Streaks decay slowly, with rest days each week.")
+                emptyHint(symbol: "square.grid.2x2", text: "12-week heatmap, painted as you go.")
+                emptyHint(symbol: "sparkles", text: "Breaks AI weekly review, on-device.")
+            }
+            .padding(.top, 4)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 28)
+        .padding(.horizontal, 20)
+    }
+
+    private func emptyHint(symbol: String, text: String) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: symbol)
+                .font(.caption)
+                .foregroundStyle(accentColor.opacity(0.85))
+                .frame(width: 14)
+            Text(text)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
     }
 }

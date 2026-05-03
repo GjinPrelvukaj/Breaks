@@ -120,7 +120,10 @@ That's it. No accessibility, no automation, no network.
 
 What's planned, what's shipped, what might happen one day: [Breaks Roadmap](https://github.com/users/GjinPrelvukaj/projects/1).
 
-Shipped in v1.1: editable break suggestions, optional Calendar export, and the in-app website link.
+Recent shipped highlights:
+- **v1.4** — amber default accent, bigger timer ring, stats empty states, curated icon picker for break suggestions, quiet popover (no banners while you're already looking at the timer), Liquid Glass popover background.
+- **v1.3** — Breaks AI weekly review and chat (on-device via Apple Foundation Models), per-project stats, six cycle presets, Markdown export.
+- **v1.1** — editable break suggestions, optional Calendar export, in-app website link.
 
 If something on there matters to you, react on the issue with a 👍, that's how I prioritize.
 

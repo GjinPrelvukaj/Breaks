@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-05-03
+
+### Changed
+- **Default accent is now amber (`#E8B56B`)** to match the Breaks brand. Existing installs that never customized their accent are migrated automatically; custom-picked accents are preserved.
+- **Bigger, calmer timer ring.** Diameter 144 → 172, stroke 8 → 9, time text 34pt → 42pt, and the progress trim now eases with a spring instead of jumping.
+- **Stats screen no longer shows a wall of zeroes for new users.** Until you finish your first focus block, the streak hero, heatmap, and weekly review are replaced by a small empty state that explains what shows up where.
+- **Streak microcopy.** "Decay, not reset" is now "Miss a day, keep going" with a tooltip; "0/2 rest days used" is now "1 rest day this week" / "0 of 2 rest days left." "Focus days" is "Days with focus."
+- **Primary buttons keep contrast on any accent.** The Start button now picks black or white text based on the tint's luminance, so light accents like amber stay legible.
+- **Settings → More → Break suggestions.** The raw `symbol` text field is gone. Each row now has a curated 12-icon picker (Eyes, Stretch, Walk, Cooldown, Mindful, Hydrate, Outside, Breathe, Sun, Tea, Reset, Other).
+- **Liquid Glass popover background** wired to the popover root. macOS 26 users get the real `glassEffect`; older versions fall back to `.ultraThinMaterial`.
+- **Animation timings normalized** under three named tokens (`breaksQuick`, `breaksDefault`, `breaksGentle`) to make the app feel more rhythmically consistent. Spacing tokens added under `BreakSpacing`.
+
+### Added
+- **Quiet popover**: notifications no longer fire while the popover is open and you can already see the timer. The willPresent delegate suppresses banner + sound when the popover is visible, and resumes normal delivery when it's closed.
+
 ## [1.3.2] - 2026-05-03
 
 ### Changed

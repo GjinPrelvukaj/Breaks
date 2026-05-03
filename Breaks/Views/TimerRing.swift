@@ -17,14 +17,15 @@ struct TimerRing: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(Color.secondary.opacity(0.14), lineWidth: 8)
+                .stroke(Color.secondary.opacity(0.14), lineWidth: 9)
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(accentColor, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                .stroke(accentColor, style: StrokeStyle(lineWidth: 9, lineCap: .round))
                 .rotationEffect(.degrees(-90))
-            VStack(spacing: 4) {
+                .animation(.spring(response: 0.6, dampingFraction: 0.85), value: progress)
+            VStack(spacing: 6) {
                 Text(timer.formatted(clock.remaining))
-                    .font(.system(size: 34, weight: .semibold, design: .rounded))
+                    .font(.system(size: 42, weight: .semibold, design: .rounded))
                     .monospacedDigit()
                     .contentTransition(.numericText(countsDown: true))
                     .animation(.snappy(duration: 0.25), value: clock.remaining)
@@ -32,10 +33,11 @@ struct TimerRing: View {
                     .font(.caption2.weight(.semibold))
                     .foregroundStyle(timer.isRunning ? accentColor : .secondary)
                     .textCase(.uppercase)
+                    .tracking(0.6)
                     .animation(.easeInOut(duration: 0.3), value: timer.isRunning)
             }
         }
-        .frame(width: 144, height: 144)
+        .frame(width: 172, height: 172)
     }
 
     private var progress: Double {

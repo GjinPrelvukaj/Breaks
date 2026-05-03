@@ -56,7 +56,8 @@ final class TimerSettings: ObservableObject {
         volume           = (ud.object(forKey: "volume") as? Double) ?? 0.7
         lastMode         = (ud.object(forKey: "lastMode") as? String) ?? BreakTimer.Mode.work.rawValue
         flowMode         = (ud.object(forKey: "flowMode") as? Bool) ?? false
-        accentColorHex   = (ud.object(forKey: "accentColorHex") as? String) ?? "AccentColor"
+        let storedAccent = ud.object(forKey: "accentColorHex") as? String
+        accentColorHex   = (storedAccent == nil || storedAccent == "AccentColor") ? "#E8B56B" : storedAccent!
         hasCompletedOnboarding = (ud.object(forKey: "hasCompletedOnboarding") as? Bool) ?? false
         idleDetectionEnabled = (ud.object(forKey: "idleDetectionEnabled") as? Bool) ?? true
         idleThresholdMinutes = (ud.object(forKey: "idleThresholdMinutes") as? Int) ?? 5

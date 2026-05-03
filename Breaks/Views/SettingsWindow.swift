@@ -99,6 +99,7 @@ struct SettingsWindow: View {
             .navigationSplitViewColumnWidth(min: 540, ideal: 600)
         }
         .frame(minHeight: 520, idealHeight: 600)
+        .tint(timer.settings.accentColor)
         .background(SettingsWindowChrome())
         .onAppear {
             timer.settings.refreshLaunchAtLoginStatus()
@@ -888,21 +889,44 @@ struct BreakSuggestionEditorRow: View {
         _applies = State(initialValue: suggestion.applies)
     }
 
+    private static let symbolPalette: [(name: String, label: String)] = [
+        ("eye", "Eyes"),
+        ("figure.flexibility", "Stretch"),
+        ("figure.walk", "Walk"),
+        ("figure.cooldown", "Cooldown"),
+        ("figure.mind.and.body", "Mindful"),
+        ("drop", "Hydrate"),
+        ("leaf", "Outside"),
+        ("wind", "Breathe"),
+        ("sun.max", "Sun"),
+        ("cup.and.saucer", "Tea"),
+        ("hands.sparkles", "Reset"),
+        ("sparkles", "Other")
+    ]
+
     var body: some View {
-        HStack(spacing: 6) {
-            Image(systemName: symbol.isEmpty ? "sparkles" : symbol)
-                .foregroundStyle(accentColor)
-                .frame(width: 20)
+        HStack(spacing: 8) {
+            Menu {
+                ForEach(Self.symbolPalette, id: \.name) { entry in
+                    Button {
+                        symbol = entry.name
+                    } label: {
+                        Label(entry.label, systemImage: entry.name)
+                    }
+                }
+            } label: {
+                Image(systemName: symbol.isEmpty ? "sparkles" : symbol)
+                    .foregroundStyle(accentColor)
+                    .frame(width: 22, height: 22)
+                    .contentShape(Rectangle())
+            }
+            .menuStyle(.borderlessButton)
+            .menuIndicator(.hidden)
+            .fixedSize()
+            .help("Choose icon")
 
             TextField("Suggestion", text: $text)
                 .textFieldStyle(.plain)
-                .onSubmit { commit() }
-
-            TextField("symbol", text: $symbol)
-                .textFieldStyle(.plain)
-                .font(.caption)
-                .frame(width: 90)
-                .foregroundStyle(.secondary)
                 .onSubmit { commit() }
 
             Picker("", selection: $applies) {

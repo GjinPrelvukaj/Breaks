@@ -38,16 +38,20 @@ struct TimerPopover: View {
                     .transition(pageTransition(forward: false))
             }
         }
-        .animation(.spring(response: 0.36, dampingFraction: 0.84), value: currentPage)
+        .animation(.breaksGentle, value: currentPage)
         .frame(width: 320)
-        .background(Color.clear)
+        .modifier(LiquidGlassPopoverBackground())
         .onAppear {
+            PopoverPresence.isOpen = true
             hotkeyManager.setHandler(for: 1) {
                 timer.isRunning ? timer.pause() : timer.start()
             }
             hotkeyManager.setHandler(for: 2) { timer.skip() }
             hotkeyManager.setHandler(for: 3) { timer.resetCycle() }
             hotkeyManager.reloadHotkeys(settings: settings)
+        }
+        .onDisappear {
+            PopoverPresence.isOpen = false
         }
     }
 

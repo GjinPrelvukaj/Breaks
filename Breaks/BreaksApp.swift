@@ -76,7 +76,15 @@ final class BreaksAppDelegate: NSObject, NSApplicationDelegate, UNUserNotificati
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound])
+        // If the user is already looking at the popover, the timer is right
+        // there — no need to show a banner or play a sound on top of it.
+        Task { @MainActor in
+            if PopoverPresence.isOpen {
+                completionHandler([])
+            } else {
+                completionHandler([.banner, .sound])
+            }
+        }
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter,

@@ -83,7 +83,7 @@ struct TimerContent: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
                     Button("Cancel") {
-                        withAnimation(.spring(response: 0.28, dampingFraction: 0.85)) {
+                        withAnimation(.breaksQuick) {
                             showResetConfirm = false
                         }
                     }
@@ -92,7 +92,7 @@ struct TimerContent: View {
                     .foregroundStyle(.secondary)
                     Button("Reset") {
                         timer.resetToday()
-                        withAnimation(.spring(response: 0.28, dampingFraction: 0.85)) {
+                        withAnimation(.breaksQuick) {
                             showResetConfirm = false
                         }
                     }
@@ -104,7 +104,7 @@ struct TimerContent: View {
             } else {
                 HStack(spacing: 12) {
                     FooterLink(title: "Reset day", systemImage: "arrow.counterclockwise") {
-                        withAnimation(.spring(response: 0.28, dampingFraction: 0.85)) {
+                        withAnimation(.breaksQuick) {
                             showResetConfirm = true
                         }
                     }
@@ -119,9 +119,9 @@ struct TimerContent: View {
         }
         .padding(14)
         .tint(settings.accentColor)
-        .animation(.spring(response: 0.34, dampingFraction: 0.84), value: timer.idlePrompt?.id)
-        .animation(.spring(response: 0.34, dampingFraction: 0.84), value: journal.pendingBlock?.id)
-        .animation(.spring(response: 0.34, dampingFraction: 0.84), value: timer.history.totalToday() >= journal.dailyGoal)
+        .animation(.breaksDefault, value: timer.idlePrompt?.id)
+        .animation(.breaksDefault, value: journal.pendingBlock?.id)
+        .animation(.breaksDefault, value: timer.history.totalToday() >= journal.dailyGoal)
         .animation(.easeInOut(duration: 0.25), value: timer.mode)
     }
 
@@ -275,8 +275,8 @@ struct TodayDashboard: View {
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
-        .animation(.spring(response: 0.32, dampingFraction: 0.82), value: expanded)
-        .animation(.spring(response: 0.32, dampingFraction: 0.82), value: editingToday)
+        .animation(.breaksDefault, value: expanded)
+        .animation(.breaksDefault, value: editingToday)
     }
 
     private var header: some View {
