@@ -125,7 +125,9 @@ struct SettingsWindow: View {
             MiscTab(
                 settings: timer.settings,
                 library: timer.suggestions,
-                calendar: timer.calendarExporter
+                calendar: timer.calendarExporter,
+                journal: timer.journal,
+                projects: timer.projects
             )
         }
     }
@@ -571,6 +573,8 @@ private struct MiscTab: View {
     @ObservedObject var settings: TimerSettings
     @ObservedObject var library: BreakSuggestionLibrary
     @ObservedObject var calendar: CalendarExporter
+    @ObservedObject var journal: FocusJournal
+    @ObservedObject var projects: FocusProjectLibrary
     @StateObject private var permissions = NotificationPermissions()
 
     var body: some View {
@@ -694,6 +698,20 @@ private struct MiscTab: View {
 
             Section("Permissions") {
                 PermissionRow(permissions: permissions, accentColor: settings.accentColor)
+            }
+
+            Section("Data") {
+                Button {
+                    MarkdownExporter.exportFocusJournal(journal, projects: projects)
+                } label: {
+                    HStack {
+                        Image(systemName: "square.and.arrow.up")
+                        Text("Export focus journal as Markdown…")
+                    }
+                }
+                Text("Save your full focus journal as a portable .md file. Nothing leaves your Mac.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
 
             Section {

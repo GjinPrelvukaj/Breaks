@@ -306,6 +306,11 @@ struct WeeklyReviewView: View {
     @ObservedObject var history: SessionHistory
     @ObservedObject var journal: FocusJournal
     @ObservedObject var projects: FocusProjectLibrary
+    @StateObject private var ai = WeeklyAIReview()
+    @StateObject private var chat = JournalAIChat()
+    @State private var expandedKey: String?
+    @State private var question: String = ""
+    @State private var showChat: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -351,6 +356,17 @@ struct WeeklyReviewView: View {
                     }
                 }
             }
+            AIWeeklySummaryView(ai: ai) {
+                journal.weeklyPromptContext()
+            }
+
+            AIJournalChatView(
+                chat: chat,
+                question: $question,
+                expanded: $showChat,
+                contextBuilder: { journal.weeklyPromptContext() }
+            )
+
             let breakdown = journal.weeklyProjectBreakdown()
             if !breakdown.isEmpty {
                 Text("By project")
@@ -359,18 +375,39 @@ struct WeeklyReviewView: View {
                     .textCase(.uppercase)
                     .padding(.top, 2)
                 ForEach(breakdown) { item in
-                    HStack(spacing: 6) {
-                        Circle()
-                            .fill(projects.project(for: item.projectID)?.color ?? Color.secondary.opacity(0.4))
-                            .frame(width: 7, height: 7)
-                        Text(item.projectName)
-                            .font(.caption2)
-                            .lineLimit(1)
-                        Spacer()
-                        Text("\(item.minutes)m · \(item.blocks)")
-                            .font(.caption2)
-                            .monospacedDigit()
-                            .foregroundStyle(.secondary)
+                    let key = item.projectID?.uuidString ?? "__noproject__"
+                    let isExpanded = expandedKey == key
+                    VStack(alignment: .leading, spacing: 4) {
+                        Button {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                                expandedKey = isExpanded ? nil : key
+                            }
+                        } label: {
+                            HStack(spacing: 6) {
+                                Circle()
+                                    .fill(projects.project(for: item.projectID)?.color ?? Color.secondary.opacity(0.4))
+                                    .frame(width: 7, height: 7)
+                                Text(item.projectName)
+                                    .font(.caption2)
+                                    .lineLimit(1)
+                                Spacer()
+                                Text("\(item.minutes)m · \(item.blocks)")
+                                    .font(.caption2)
+                                    .monospacedDigit()
+                                    .foregroundStyle(.secondary)
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 8, weight: .semibold))
+                                    .foregroundStyle(.tertiary)
+                                    .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                            }
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        if isExpanded {
+                            ProjectDetailCard(stats: journal.detailStats(for: item.projectID),
+                                              color: projects.project(for: item.projectID)?.color ?? Color.secondary)
+                                .transition(.opacity.combined(with: .move(edge: .top)))
+                        }
                     }
                 }
             }
@@ -380,5 +417,308 @@ struct WeeklyReviewView: View {
     private func barProgress(for day: WeeklyFocusDay) -> Double {
         let maxBlocks = max(1, journal.weeklyReviewDays().map(\.blocks).max() ?? 1)
         return min(1, Double(day.blocks) / Double(maxBlocks))
+    }
+}
+
+// MARK: - Project Detail Card
+
+struct ProjectDetailCard: View {
+    let stats: FocusJournal.ProjectDetailStats
+    let color: Color
+
+    private var maxMinutes: Int {
+        max(1, stats.dailyMinutes.map(\.minutes).max() ?? 1)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 12) {
+                statTile("Week", value: "\(stats.weekMinutes)m")
+                statTile("Month", value: "\(stats.monthMinutes)m")
+                statTile("All time", value: "\(stats.allTimeMinutes)m")
+            }
+            HStack(alignment: .bottom, spacing: 4) {
+                ForEach(stats.dailyMinutes) { day in
+                    VStack(spacing: 2) {
+                        RoundedRectangle(cornerRadius: 2, style: .continuous)
+                            .fill(color.opacity(day.minutes == 0 ? 0.15 : 0.7))
+                            .frame(height: max(3, CGFloat(day.minutes) / CGFloat(maxMinutes) * 32))
+                        Text(day.date.formatted(.dateTime.weekday(.narrow)))
+                            .font(.system(size: 8))
+                            .foregroundStyle(.tertiary)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+            }
+            .frame(height: 44)
+            HStack(spacing: 10) {
+                outcomeChip(label: "Good", count: stats.goodCount, tint: .green)
+                outcomeChip(label: "Messy", count: stats.messyCount, tint: .orange)
+                outcomeChip(label: "Skipped", count: stats.skippedCount, tint: .secondary)
+                Spacer()
+                Text("\(stats.totalBlocks) blocks")
+                    .font(.system(size: 9))
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(8)
+        .background(
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(color.opacity(0.06))
+        )
+    }
+
+    private func statTile(_ label: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text(label)
+                .font(.system(size: 8, weight: .semibold))
+                .foregroundStyle(.tertiary)
+                .textCase(.uppercase)
+            Text(value)
+                .font(.caption.weight(.semibold))
+                .monospacedDigit()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func outcomeChip(label: String, count: Int, tint: Color) -> some View {
+        HStack(spacing: 3) {
+            Circle().fill(tint).frame(width: 5, height: 5)
+            Text("\(label) \(count)")
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+// MARK: - AI Weekly Summary
+
+struct AIWeeklySummaryView: View {
+    @ObservedObject var ai: WeeklyAIReview
+    let promptBuilder: () -> String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Image(systemName: "sparkles")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                Text("Breaks AI")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+                Spacer()
+                if case .loaded = ai.state {
+                    Button {
+                        ai.regenerate(prompt: promptBuilder())
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.caption2)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.secondary)
+                    .help("Regenerate summary")
+                }
+            }
+            content
+        }
+        .padding(.top, 6)
+        .onAppear {
+            ai.generateIfNeeded(prompt: promptBuilder)
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch ai.state {
+        case .idle:
+            EmptyView()
+        case .loading:
+            HStack(spacing: 6) {
+                ProgressView().controlSize(.small)
+                Text("Reviewing your week…")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        case .loaded(let text, _):
+            Text(text)
+                .font(.caption)
+                .foregroundStyle(.primary)
+                .fixedSize(horizontal: false, vertical: true)
+        case .unsupportedOS:
+            Text("Breaks AI needs macOS 26 or newer.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        case .modelUnavailable(let reason):
+            Text(reason)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        case .failed(let msg):
+            HStack(spacing: 4) {
+                Text("Couldn't generate: \(msg)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+                Button("Retry") { ai.regenerate(prompt: promptBuilder()) }
+                    .font(.caption2)
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.blue)
+            }
+        }
+    }
+}
+
+// MARK: - AI Journal Chat
+
+struct AIJournalChatView: View {
+    @ObservedObject var chat: JournalAIChat
+    @Binding var question: String
+    @Binding var expanded: Bool
+    let contextBuilder: () -> String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Button {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                    expanded.toggle()
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "bubble.left.and.text.bubble.right")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Text("Ask Breaks AI")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .textCase(.uppercase)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundStyle(.tertiary)
+                        .rotationEffect(.degrees(expanded ? 180 : 0))
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            if expanded {
+                content
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .padding(.top, 6)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch chat.availability {
+        case .available:
+            VStack(alignment: .leading, spacing: 6) {
+                if !chat.messages.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        ForEach(chat.messages) { msg in
+                            messageBubble(msg)
+                        }
+                        if let err = chat.error {
+                            Text(err)
+                                .font(.caption2)
+                                .foregroundStyle(.red.opacity(0.8))
+                        }
+                    }
+                }
+                if chat.isThinking {
+                    HStack(spacing: 6) {
+                        ProgressView().controlSize(.small)
+                        Text("Thinking…")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                HStack(spacing: 6) {
+                    TextField("e.g. when did I focus best?", text: $question)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.caption)
+                        .disabled(chat.isThinking)
+                        .onSubmit(send)
+                    Button(action: send) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .font(.title3)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(chat.isThinking || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    if !chat.messages.isEmpty {
+                        Button {
+                            chat.clear()
+                        } label: {
+                            Image(systemName: "trash")
+                                .font(.caption)
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(.secondary)
+                    }
+                }
+                if chat.messages.isEmpty {
+                    suggestionChips
+                }
+            }
+        case .unsupportedOS:
+            Text("Breaks AI needs macOS 26 or newer.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        case .unavailable(let reason):
+            Text(reason)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        case .checking:
+            Text("Checking model availability…")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private var suggestionChips: some View {
+        let suggestions = [
+            "When did I focus best?",
+            "Which project took the most time?",
+            "Where did I drift?"
+        ]
+        return HStack(spacing: 5) {
+            ForEach(suggestions, id: \.self) { s in
+                Button {
+                    question = s
+                    send()
+                } label: {
+                    Text(s)
+                        .font(.system(size: 10))
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Capsule().fill(Color.secondary.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    private func messageBubble(_ msg: JournalAIChat.Message) -> some View {
+        HStack {
+            if msg.role == .user { Spacer(minLength: 24) }
+            Text(msg.text)
+                .font(.caption)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 5)
+                .background(
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(msg.role == .user ? Color.accentColor.opacity(0.18) : Color.secondary.opacity(0.10))
+                )
+                .fixedSize(horizontal: false, vertical: true)
+            if msg.role == .assistant { Spacer(minLength: 24) }
+        }
+    }
+
+    private func send() {
+        let trimmed = question.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        question = ""
+        chat.ask(trimmed, context: contextBuilder())
     }
 }

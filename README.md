@@ -23,6 +23,10 @@ I built Breaks because every other timer either nagged me too much, hid in a Doc
 - Pomodoro the way you want it. Tweak work / short break / long break lengths, sessions per cycle, sounds, auto-start behavior.
 - Global hotkeys for start/pause, skip, and reset cycle. Bind whatever keys you like. Works even when the app isn't focused, because it uses Carbon's `RegisterEventHotKey` instead of the flaky `NSEvent` route.
 - A focus journal that's actually useful. Pick a focus for the day, label each block, mark it good, messy, or skipped. It's quick, takes one tap during the break, and adds up over the week.
+- **Breaks AI**, on-device. A weekly summary and a chat ("when did I focus best?", "which project took the most time?") backed by Apple Foundation Models. No servers, no telemetry, no API keys. Requires macOS 26 with Apple Intelligence enabled.
+- Per-project stats. Tap any project in the weekly review to see week / month / all-time minutes, a 7-day chart, and outcome breakdown.
+- Cycle templates. Six built-in presets — Pomodoro, 52/17, Deep Work, Flowtime (90/20), Ultradian, Quick — and you can still tune the durations yourself.
+- Markdown export. Dump your full focus journal to a `.md` file you choose. Daily blocks, outcomes, projects, totals.
 - Custom break suggestions. Edit the short/long break ideas, add your own, and cycle through them from the timer.
 - Calendar export. Optional EventKit export writes completed focus blocks to your chosen calendar.
 - Streaks with grace. Miss a day and you get a small per-week pause budget before the streak decays. Life happens.

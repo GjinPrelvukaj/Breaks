@@ -142,7 +142,10 @@ struct DurationPreset: Identifiable, Equatable {
 
     static let all: [DurationPreset] = [
         DurationPreset(id: "pomodoro", title: "Pomodoro", workMinutes: 25, shortMinutes: 5, longMinutes: 10, sessionsPerCycle: 4),
+        DurationPreset(id: "fiftytwo", title: "52/17", workMinutes: 52, shortMinutes: 17, longMinutes: 30, sessionsPerCycle: 3),
         DurationPreset(id: "deep", title: "Deep Work", workMinutes: 50, shortMinutes: 10, longMinutes: 20, sessionsPerCycle: 3),
+        DurationPreset(id: "flowtime", title: "Flowtime", workMinutes: 90, shortMinutes: 20, longMinutes: 30, sessionsPerCycle: 2),
+        DurationPreset(id: "ultradian", title: "Ultradian", workMinutes: 90, shortMinutes: 30, longMinutes: 30, sessionsPerCycle: 2),
         DurationPreset(id: "quick", title: "Quick", workMinutes: 15, shortMinutes: 3, longMinutes: 10, sessionsPerCycle: 4)
     ]
 }

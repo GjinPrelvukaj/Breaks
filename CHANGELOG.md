@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-05-03
+
+### Added
+- **Breaks AI**: on-device weekly review and conversational journal Q&A. Reads your focus journal locally via Apple Foundation Models — no servers, no telemetry, no API keys. Available on macOS 26 with Apple Intelligence enabled.
+  - **Weekly summary**: a 3-sentence reflection plus one specific suggestion, generated once per ISO week and cached.
+  - **Ask Breaks AI**: collapsible chat. Ask things like "when did I focus best?" or "which project took the most time?". Suggestion chips, multi-turn context, off-topic refusal.
+- **Per-project stats**: tap any project in the weekly review to expand a card with week / month / all-time minutes, a 7-day mini chart, and good / messy / skipped outcome counts.
+- **Cycle templates**: three new presets — 52/17, Flowtime (90/20), Ultradian (90/30) — alongside Pomodoro, Deep Work, and Quick.
+- **Markdown export**: Settings → More → Data → "Export focus journal as Markdown…" dumps your full journal grouped by day with outcomes, projects, and totals to a file you choose. Stays on your machine.
+
+### Changed
+- Sandbox file entitlement upgraded from user-selected read-only to read-write, scoped to user-picked save destinations only (needed for Markdown export).
+
 ## [1.2.1] - 2026-04-30
 
 ### Removed

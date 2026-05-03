@@ -273,6 +273,118 @@ final class FocusJournal: ObservableObject {
             }
     }
 
+    struct ProjectDetailStats {
+        let projectID: UUID?
+        let projectName: String
+        let weekMinutes: Int
+        let monthMinutes: Int
+        let allTimeMinutes: Int
+        let totalBlocks: Int
+        let goodCount: Int
+        let messyCount: Int
+        let skippedCount: Int
+        let dailyMinutes: [WeeklyFocusDay]
+    }
+
+    func detailStats(for projectID: UUID?) -> ProjectDetailStats {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date())) ?? today
+        let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: Date())) ?? today
+
+        let projectLogs = blockLogs.filter { $0.projectID == projectID }
+        let scoring = projectLogs.filter { $0.outcome != .skipped }
+
+        let weekMins = scoring.filter { $0.date >= startOfWeek }.reduce(0) { $0 + $1.minutes }
+        let monthMins = scoring.filter { $0.date >= startOfMonth }.reduce(0) { $0 + $1.minutes }
+        let allMins = scoring.reduce(0) { $0 + $1.minutes }
+
+        let good = projectLogs.filter { $0.outcome == .good }.count
+        let messy = projectLogs.filter { $0.outcome == .messy }.count
+        let skipped = projectLogs.filter { $0.outcome == .skipped }.count
+
+        let daily: [WeeklyFocusDay] = (0..<7).reversed().compactMap { offset in
+            guard let day = calendar.date(byAdding: .day, value: -offset, to: today) else { return nil }
+            let logs = projectLogs.filter { calendar.isDate($0.date, inSameDayAs: day) && $0.outcome != .skipped }
+            let minutes = logs.reduce(0) { $0 + $1.minutes }
+            return WeeklyFocusDay(date: day, blocks: logs.count, minutes: minutes)
+        }
+
+        let resolvedName: String
+        if let id = projectID, let live = projectLibrary?.project(for: id) {
+            resolvedName = live.name
+        } else if let pname = projectLogs.last?.projectName, !pname.isEmpty {
+            resolvedName = pname
+        } else {
+            resolvedName = "No Project"
+        }
+
+        return ProjectDetailStats(
+            projectID: projectID,
+            projectName: resolvedName,
+            weekMinutes: weekMins,
+            monthMinutes: monthMins,
+            allTimeMinutes: allMins,
+            totalBlocks: projectLogs.count,
+            goodCount: good,
+            messyCount: messy,
+            skippedCount: skipped,
+            dailyMinutes: daily
+        )
+    }
+
+    func weeklyPromptContext() -> String {
+        let calendar = Calendar.current
+        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date())) else {
+            return "No data for this week."
+        }
+        let weekLogs = blockLogs.filter { $0.date >= startOfWeek }
+        if weekLogs.isEmpty {
+            return "No focus blocks recorded this week."
+        }
+
+        var byDay: [Date: [FocusBlockLog]] = [:]
+        for log in weekLogs {
+            let day = calendar.startOfDay(for: log.date)
+            byDay[day, default: []].append(log)
+        }
+
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "EEEE"
+
+        var lines: [String] = []
+        if let focus = priorities.first(where: { !$0.isEmpty }) {
+            lines.append("Primary focus this week: \(focus)")
+        }
+        let totalBlocks = weekLogs.count
+        let goodCount = weekLogs.filter { $0.outcome == .good }.count
+        let messyCount = weekLogs.filter { $0.outcome == .messy }.count
+        let skippedCount = weekLogs.filter { $0.outcome == .skipped }.count
+        let totalMinutes = weekLogs.filter { $0.outcome != .skipped }.reduce(0) { $0 + $1.minutes }
+        lines.append("Totals: \(totalBlocks) blocks, \(totalMinutes) focused minutes, \(goodCount) good, \(messyCount) messy, \(skippedCount) skipped.")
+
+        lines.append("")
+        lines.append("Daily breakdown:")
+        for day in byDay.keys.sorted() {
+            let logs = byDay[day] ?? []
+            let dayName = dayFormatter.string(from: day)
+            let mins = logs.filter { $0.outcome != .skipped }.reduce(0) { $0 + $1.minutes }
+            let outcomes = logs.map { "\($0.label) (\($0.outcome.rawValue.lowercased()), \($0.minutes)m)" }.joined(separator: "; ")
+            lines.append("- \(dayName): \(logs.count) blocks, \(mins)m — \(outcomes)")
+        }
+
+        let projects = weeklyProjectBreakdown()
+        if !projects.isEmpty {
+            lines.append("")
+            lines.append("By project:")
+            for p in projects {
+                lines.append("- \(p.projectName): \(p.minutes)m across \(p.blocks) blocks")
+            }
+        }
+
+        return lines.joined(separator: "\n")
+    }
+
     private func trimLogs() {
         let cutoff = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
         blockLogs = blockLogs.filter { $0.date >= cutoff }
