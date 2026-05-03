@@ -1,6 +1,12 @@
 ---
 const items = [
   {
+    icon: "ai",
+    title: "Breaks AI, on device.",
+    body:
+      "A weekly summary of where your focus went, plus a chat that answers questions about your journal. Apple Foundation Models, all local. No API keys, no servers.",
+  },
+  {
     icon: "menubar",
     title: "Lives in the menu bar.",
     body:
@@ -10,25 +16,25 @@ const items = [
     icon: "journal",
     title: "Tracks real focus.",
     body:
-      "Pick a focus, label each block, and mark the session good, messy, or skipped. Weekly review shows where the time went.",
-  },
-  {
-    icon: "suggestions",
-    title: "Custom break ideas.",
-    body:
-      "Edit the short and long break suggestions so the app nudges you toward breaks that actually fit your day.",
-  },
-  {
-    icon: "calendar",
-    title: "Calendar export.",
-    body:
-      "Optionally write completed focus blocks to Calendar with the focus label, start time, and end time.",
+      "Pick a focus, label each block, and mark it good, messy, or skipped. Tag with a project to see week / month / all-time time per project.",
   },
   {
     icon: "streak",
     title: "Honest streaks.",
     body:
       "A weekly rest-day budget, sleep recovery, and idle prompts keep progress useful without punishing real life.",
+  },
+  {
+    icon: "suggestions",
+    title: "Six cycle templates.",
+    body:
+      "Pomodoro, 52/17, Deep Work, Flowtime, Ultradian, or Quick &mdash; one tap to switch, or tune the durations yourself.",
+  },
+  {
+    icon: "calendar",
+    title: "Calendar &amp; Markdown.",
+    body:
+      "Optionally write completed focus blocks to Calendar. Or export your full focus journal as a Markdown file you own.",
   },
   {
     icon: "keyboard",
@@ -45,8 +51,8 @@ const items = [
       <span class="eyebrow">Features</span>
       <h2 class="h-section">A timer designed for the corner of your eye.</h2>
       <p class="lede">
-        Six focused ideas, executed with care. None of them shout, all of them
-        compound into a workday that feels less interrupted.
+        A small set of ideas, executed with care. None of them shout, all of
+        them compound into a workday that feels less interrupted.
       </p>
     </header>
 
@@ -55,6 +61,13 @@ const items = [
         items.map((it) => (
           <li class="card">
             <div class="ico" aria-hidden="true">
+              {it.icon === "ai" && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <path d="M12 3.5l1.6 3.6L17 8.6l-3.4 1.4L12 13.6l-1.6-3.6L7 8.6l3.4-1.5L12 3.5z" stroke-linejoin="round" />
+                  <path d="M18 14l.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9.9-2z" stroke-linejoin="round" />
+                  <path d="M5 17l.6 1.4L7 19l-1.4.6L5 21l-.6-1.4L3 19l1.4-.6L5 17z" stroke-linejoin="round" />
+                </svg>
+              )}
               {it.icon === "menubar" && (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
                   <rect x="3" y="4" width="18" height="3" rx="1.4" />
