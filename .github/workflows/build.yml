@@ -11,7 +11,7 @@ jobs:
     name: xcodebuild Debug
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
