@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-05-03
+
+### Changed
+- Breaks AI now knows the app was made by Gjin Prelvukaj and answers questions about the creator/author directly instead of dodging.
+
 ## [1.3.0] - 2026-05-03
 
 ### Added
