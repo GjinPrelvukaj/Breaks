@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-05-03
+
+### Changed
+- Breaks AI now answers basic questions about the Breaks app itself (made by Gjin Prelvukaj, Swift/SwiftUI, MIT licensed, runs locally, where the source code lives, etc.) instead of dodging with an identity statement when the question is about the app rather than your journal.
+
 ## [1.3.1] - 2026-05-03
 
 ### Changed
