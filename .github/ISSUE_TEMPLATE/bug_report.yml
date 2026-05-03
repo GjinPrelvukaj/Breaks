@@ -1,0 +1,44 @@
+name: Bug report
+description: Something in Breaks isn't behaving the way it should.
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug. Screenshots or short screen recordings help a lot.
+      placeholder: When I do X, Y happens instead of Z.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: The shortest path to triggering the bug.
+      placeholder: |
+        1. Open the popover
+        2. Click …
+        3. See …
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Breaks version
+      description: From the menu-bar popover footer or the About panel.
+      placeholder: "v1.4.0"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "macOS 15.4 (Apple Silicon)"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output (optional)
+      description: Anything Breaks-related from Console.app. Skip Apple framework noise.
+      render: shell

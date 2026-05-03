@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest an idea or improvement for Breaks.
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the situation, not the solution. "I keep losing my streak when I travel" is more useful than "add timezone support."
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like Breaks to do?
+      description: A short sketch of the behavior you want. UI mocks or before/after examples welcome but optional.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Where would this live?
+      multiple: false
+      options:
+        - Timer / popover
+        - Stats
+        - Settings
+        - Breaks AI
+        - Notifications / hotkeys
+        - Other / not sure
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered (optional)
+      description: Other apps that solve this, workarounds you use today, or simpler versions you'd accept.

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Q&A and ideas
+    url: https://github.com/GjinPrelvukaj/Breaks/discussions
+    about: For open-ended questions, design discussions, or ideas you want to flesh out before filing.
+  - name: Roadmap
+    url: https://github.com/users/GjinPrelvukaj/projects/1
+    about: See what's planned, in progress, or shipped. React with 👍 to vote on what matters.
