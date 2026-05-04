@@ -16,7 +16,7 @@
     "@fontsource-variable/fraunces": "^5.1.1",
     "@fontsource/geist-mono": "^5.1.1",
     "@fontsource/geist-sans": "^5.1.1",
-    "astro": "^6.2.1"
+    "astro": "^6.2.2"
   },
   "devDependencies": {
     "lightningcss": "^1.32.0"
