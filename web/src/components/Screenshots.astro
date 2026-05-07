@@ -36,7 +36,7 @@ const shots = [
             <h3 class="row-title">{s.title}</h3>
             <p class="row-body">{s.body}</p>
           </div>
-          <figure class="visual glass">
+          <figure class="visual">
             <img
               src={`${BASE}/media/${s.file}`}
               alt={s.alt}
@@ -115,19 +115,16 @@ const shots = [
   }
 
   .visual {
-    padding: clamp(1.25rem, 3vw, 2rem);
     display: grid;
     place-items: center;
-    border-radius: 20px;
-    aspect-ratio: 4 / 5;
   }
   .visual img {
-    width: auto;
-    max-height: 100%;
+    width: 100%;
     max-width: 100%;
-    border-radius: 12px;
+    height: auto;
+    border-radius: 14px;
     box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.04),
-      0 18px 50px -16px rgba(0, 0, 0, 0.6);
+      0 2px 0 rgba(255,255,255,0.04) inset,
+      0 24px 60px -20px rgba(0, 0, 0, 0.7);
   }
 </style>
