@@ -2,28 +2,28 @@
 const steps = [
   {
     icon: "download",
-    title: "Download",
+    title: "Download the DMG",
     body:
-      "Grab the latest zip from GitHub. Universal binary, around one megabyte.",
+      "Grab Breaks.dmg from the latest GitHub release. Notarized, universal binary, under two megabytes.",
     link: { href: "https://github.com/GjinPrelvukaj/Breaks/releases/latest", label: "Latest release →" },
   },
   {
     icon: "drag",
-    title: "Move to /Applications",
-    body: "Same as any other Mac app. Drag and drop.",
+    title: "Drag to Applications",
+    body: "Open the DMG and drag Breaks into your Applications folder. Same as any other Mac app.",
   },
   {
     icon: "open",
-    title: "Right-click, Open",
+    title: "Launch",
     body:
-      "First launch only. macOS shows a dialog; click Open. Launches normally forever after.",
+      "Open Breaks from Applications. No right-click required — the build is notarized and Gatekeeper clears it automatically.",
   },
   {
     icon: "terminal",
-    title: "Skip the prompt",
+    title: "Or install via Homebrew",
     body:
-      "Or remove the quarantine flag with one command in Terminal.",
-    code: "xattr -dr com.apple.quarantine /Applications/Breaks.app",
+      "Homebrew Cask support is coming. Watch the repo for the announcement.",
+    code: "brew install --cask breaks  # coming soon",
   },
 ];
 ---
@@ -34,8 +34,8 @@ const steps = [
       <span class="eyebrow">First launch</span>
       <h2 class="h-section">From download to running in under twenty seconds.</h2>
       <p class="lede">
-        Breaks isn't notarized yet. Apple charges $99/yr for that and this is a
-        free side project. macOS warns you the first time only.
+        Notarized and signed. Download the DMG, drag to Applications, launch. No prompts, no friction.
+        Also available on the Mac App Store — in review.
       </p>
     </header>
 
