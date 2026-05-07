@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-05-07
+
+This release changes nothing about the app itself. It's about how you get it.
+
+Breaks is now on the **Mac App Store** (pending review) and ships as a **signed, notarized DMG** for direct download. No more "unidentified developer" prompt, no more right-click to open. Just download, drag, done.
+
+### Distribution
+- First notarized DMG release. Developer ID signed, stapled — Gatekeeper clears it on first launch with no manual override needed.
+- App Store submission in review. Link will be added here once approved.
+- Install section updated to reflect DMG-first install flow.
+
 ## [1.4.0] - 2026-05-03
 
 A visual pass to make Breaks look and feel the way it's supposed to. The brand is amber, the ring is the hero, and the app stops shouting at you when you're already looking at it.
