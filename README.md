@@ -36,13 +36,17 @@ I built Breaks because every other timer either nagged me too much, hid in a Doc
 
 ## Install
 
-Grab the latest build from [Releases](https://github.com/GjinPrelvukaj/Breaks/releases/latest):
+**Option A — Mac App Store** *(pending review, link coming soon)*
 
-1. Download `Breaks-vX.Y-macOS.zip`
-2. Unzip and drag `Breaks.app` into `/Applications`
-3. First launch: right-click the app, then **Open**. The build is ad-hoc signed, not notarized, so Gatekeeper needs the manual override the first time.
+**Option B — Direct download**
 
-Apple Silicon, macOS 13.0 or later.
+Grab the latest DMG from [Releases](https://github.com/GjinPrelvukaj/Breaks/releases/latest):
+
+1. Download `Breaks.dmg`
+2. Open the DMG and drag `Breaks.app` into `/Applications`
+3. Launch from `/Applications` — no right-click needed, the build is notarized
+
+Requires macOS 13.0 or later. Universal binary (Apple Silicon + Intel).
 
 ## Build from source
 
@@ -121,6 +125,7 @@ That's it. No accessibility, no automation, no network.
 What's planned, what's shipped, what might happen one day: [Breaks Roadmap](https://github.com/users/GjinPrelvukaj/projects/1).
 
 Recent shipped highlights:
+- **v1.4.1** — first notarized DMG release, Mac App Store submission.
 - **v1.4** — amber default accent, bigger timer ring, stats empty states, curated icon picker for break suggestions, quiet popover (no banners while you're already looking at the timer), Liquid Glass popover background.
 - **v1.3** — Breaks AI weekly review and chat (on-device via Apple Foundation Models), per-project stats, six cycle presets, Markdown export.
 - **v1.1** — editable break suggestions, optional Calendar export, in-app website link.
