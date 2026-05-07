@@ -7,7 +7,7 @@ Breaks is a sandboxed macOS app with no network access, no accounts, no telemetr
 If you believe you've found a security issue, please **do not open a public issue or discussion**. Instead, report it privately:
 
 1. Use GitHub's [private security advisory](https://github.com/GjinPrelvukaj/Breaks/security/advisories/new) flow, or
-2. Email the maintainer directly at `gjinp@7studios.co` with the subject line `Breaks security`.
+2. Email the maintainer directly at `asapgjin@gmail.com` with the subject line `Breaks security`.
 
 I'll respond within 7 days and aim to ship a fix in the next minor release. If the issue is severe and being actively exploited, I'll publish a patch release sooner.
 

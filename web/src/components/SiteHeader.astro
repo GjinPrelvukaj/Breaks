@@ -5,13 +5,7 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 <header class="site-header">
   <div class="wrap row">
     <a href={`${BASE}/`} class="brand" aria-label="Breaks home">
-      <span class="logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <circle cx="12" cy="13" r="8" />
-          <path d="M12 8v5l3 2" stroke-linecap="round" />
-          <path d="M9 2h6" stroke-linecap="round" />
-        </svg>
-      </span>
+      <img class="logo" src={`${BASE}/app-icon-512.png`} alt="" aria-hidden="true" width="20" height="20" />
       <span class="brand-text">Breaks</span>
     </a>
     <nav class="nav" aria-label="Primary">
@@ -59,9 +53,8 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
   .logo {
     width: 20px;
     height: 20px;
-    display: grid;
-    place-items: center;
-    color: var(--ink);
+    border-radius: 5px;
+    display: block;
   }
   .brand-text {
     font-weight: 600;

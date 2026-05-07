@@ -255,7 +255,7 @@ private struct SidebarFooter: View {
                         }
                     }
                     FooterIconButton(symbol: "envelope", help: "Send feedback") {
-                        if let url = URL(string: "mailto:gjinp@7studios.co?subject=Breaks%20feedback") {
+                        if let url = URL(string: "mailto:asapgjin@gmail.com?subject=Breaks%20feedback") {
                             NSWorkspace.shared.open(url)
                         }
                     }
