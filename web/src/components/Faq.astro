@@ -9,12 +9,12 @@ const faqs = [
     a: "No. Breaks AI runs entirely on your Mac through Apple Foundation Models. The weekly summary and the chat both read your local focus journal and answer locally. No API keys, no servers, no telemetry. It needs macOS 26 with Apple Intelligence enabled and an Apple Silicon Mac that supports it.",
   },
   {
-    q: "Why the 'unidentified developer' warning?",
-    a: "Breaks isn't notarized by Apple yet. Notarization requires a $99/year Apple Developer membership. Until then, right-click the app and choose Open on first launch, or run xattr -dr com.apple.quarantine /Applications/Breaks.app once.",
+    q: "Is the app safe to open? Will macOS warn me?",
+    a: "No warning. As of v1.4.1, Breaks is Developer ID signed and notarized by Apple. Download the DMG, drag to Applications, and launch normally — Gatekeeper clears it on first launch without any extra steps.",
   },
   {
     q: "Does it work on Intel Macs?",
-    a: "Yes. Releases ship as a universal binary (arm64 + x86_64), so the same zip runs on Apple Silicon and Intel Macs.",
+    a: "Yes. Releases ship as a universal binary (arm64 + x86_64), so the same DMG runs on Apple Silicon and Intel Macs.",
   },
   {
     q: "What happens if I close my laptop mid-session?",
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: "Will there be auto-updates?",
-    a: "Sparkle remains on the roadmap. For now, watch the GitHub repo or check Releases. New versions are tag-driven and ship the same day they're built.",
+    a: "Sparkle auto-update is coming for DMG users. App Store users will get updates through the Mac App Store automatically. For now, watch the GitHub repo or check Releases.",
   },
   {
     q: "Where can I file bugs or request features?",

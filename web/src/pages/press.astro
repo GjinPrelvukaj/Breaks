@@ -7,24 +7,25 @@ import { Image } from "astro:assets";
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const blurbs = {
-  oneliner: "A quiet menu-bar Pomodoro for macOS. Free, open source, no account needed.",
-  short: `Breaks is a menu-bar Pomodoro timer for macOS. It runs work sessions and breaks, keeps a focus journal, tracks streaks, and fires local notifications, all without an account, a backend, or network access. Sandboxed, MIT licensed, and free.`,
-  long: `Breaks is a small, focused Pomodoro app that lives in the macOS menu bar. It cycles through work sessions and breaks, logs each session to a focus journal, and tracks daily streaks with a pause-day budget so a missed day doesn't wipe your progress. Global hotkeys let you start, skip, or reset a session without opening a window. Notifications are delivered locally by macOS, with no push server, no account, and no email gate. Everything is stored on-device in UserDefaults. The app is sandboxed, ships with no network entitlements, and is free and open source under the MIT license. It requires macOS 13.0 or later.`,
+  oneliner: "A quiet menu-bar Pomodoro for macOS. Free, open source, notarized, no account needed.",
+  short: `Breaks is a menu-bar Pomodoro timer for macOS. It runs work sessions and breaks, keeps a focus journal, tracks streaks, and fires local notifications — all without an account, a backend, or network access. Notarized, sandboxed, MIT licensed, and free. Available on the Mac App Store and as a direct DMG download.`,
+  long: `Breaks is a small, focused Pomodoro app that lives in the macOS menu bar. It cycles through work sessions and breaks, logs each session to a focus journal, and tracks daily streaks with a pause-day budget so a missed day doesn't wipe your progress. Global hotkeys let you start, skip, or reset a session without opening a window. An on-device AI (Apple Foundation Models, macOS 26+) generates a weekly focus summary and answers questions about your journal locally. Notifications are delivered locally by macOS, with no push server, no account, and no email gate. Everything is stored on-device in UserDefaults. The app is Developer ID signed, notarized by Apple, sandboxed, ships with no network entitlements, and is free and open source under the MIT license. Available on the Mac App Store and as a direct DMG download from GitHub. Requires macOS 13.0 or later.`,
 };
 
 const assets = [
-  { label: "App Icon",            file: "favicon.svg",            thumb: `${BASE}/favicon.svg`,                   width: 32,   height: 32   },
+  { label: "App Icon 512px",      file: "app-icon-512.png",       thumb: `${BASE}/app-icon-512.png`,              width: 512,  height: 512  },
   { label: "Demo GIF",            file: "demo.gif",               thumb: `${BASE}/media/demo.gif`,                width: 1108, height: 720  },
-  { label: "Screenshot · Timer",  file: "screenshot-timer.png",   thumb: `${BASE}/media/screenshot-timer.png`,    width: 732,  height: 998  },
-  { label: "Screenshot · Stats",  file: "screenshot-stats.png",   thumb: `${BASE}/media/screenshot-stats.png`,    width: 732,  height: 1132 },
-  { label: "Screenshot · Settings", file: "screenshot-settings.png", thumb: `${BASE}/media/screenshot-settings.png`, width: 732, height: 1172 },
+  { label: "Screenshot · Timer",  file: "main.png",               thumb: `${BASE}/media/main.png`,                width: 732,  height: 998  },
+  { label: "Screenshot · Settings", file: "main+settings.png",    thumb: `${BASE}/media/main+settings.png`,       width: 732,  height: 998  },
 ];
 
 const facts = [
   { label: "Price", value: "Free" },
   { label: "Platform", value: "macOS 13.0+" },
   { label: "License", value: "MIT" },
-  { label: "Version", value: "1.3" },
+  { label: "Version", value: "1.4.1" },
+  { label: "Distribution", value: "Mac App Store · Direct DMG" },
+  { label: "Signing", value: "Developer ID · Notarized" },
   { label: "Bundle ID", value: "com.gjinprelvukaj.Breaks" },
   { label: "Source", value: "github.com/GjinPrelvukaj/Breaks" },
 ];
