@@ -9,8 +9,8 @@ I built Breaks because every other timer either nagged me too much, hid in a Doc
 </p>
 
 <p align="center">
-  <img src="docs/screenshot-stats.png" alt="Streaks and stats" width="320">
-  <img src="docs/screenshot-settings.png" alt="Settings panel" width="320">
+  <img src="docs/main.png" alt="Breaks timer" width="320">
+  <img src="docs/main+settings.png" alt="Breaks with settings open" width="320">
 </p>
 
 ![Platform](https://img.shields.io/badge/platform-macOS%2013%2B-blue)
