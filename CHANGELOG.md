@@ -10,12 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 This release changes nothing about the app itself. It's about how you get it.
 
-Breaks is now on the **Mac App Store** (pending review) and ships as a **signed, notarized DMG** for direct download. No more "unidentified developer" prompt, no more right-click to open. Just download, drag, done.
+Breaks is now **[live on the Mac App Store](https://apps.apple.com/xk/app/breaks-pomodoro-timer/id6766944942?mt=12)** and ships as a **signed, notarized DMG** for direct download. No more "unidentified developer" prompt, no more right-click to open. Just download, drag, done.
 
 ### Distribution
 - First notarized DMG release. Developer ID signed, stapled — Gatekeeper clears it on first launch with no manual override needed.
-- App Store submission in review. Link will be added here once approved.
-- Install section updated to reflect DMG-first install flow.
+- **Approved and live on the Mac App Store.** One-click install, automatic updates.
+- Install section updated to reflect App Store as the primary install path.
 
 ## [1.4.0] - 2026-05-03
 

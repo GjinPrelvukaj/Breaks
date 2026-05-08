@@ -36,7 +36,9 @@ I built Breaks because every other timer either nagged me too much, hid in a Doc
 
 ## Install
 
-**Option A — Mac App Store** *(pending review, link coming soon)*
+**Option A — Mac App Store**
+
+[![Download on the Mac App Store](https://tools.applemediaservices.com/api/badges/download-on-the-mac-app-store/black/en-us?size=250x83)](https://apps.apple.com/xk/app/breaks-pomodoro-timer/id6766944942?mt=12)
 
 **Option B — Direct download**
 
@@ -125,7 +127,7 @@ That's it. No accessibility, no automation, no network.
 What's planned, what's shipped, what might happen one day: [Breaks Roadmap](https://github.com/users/GjinPrelvukaj/projects/1).
 
 Recent shipped highlights:
-- **v1.4.1** — first notarized DMG release, Mac App Store submission.
+- **v1.4.1** — first notarized DMG release, approved and live on the Mac App Store.
 - **v1.4** — amber default accent, bigger timer ring, stats empty states, curated icon picker for break suggestions, quiet popover (no banners while you're already looking at the timer), Liquid Glass popover background.
 - **v1.3** — Breaks AI weekly review and chat (on-device via Apple Foundation Models), per-project stats, six cycle presets, Markdown export.
 - **v1.1** — editable break suggestions, optional Calendar export, in-app website link.

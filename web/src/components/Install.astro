@@ -1,8 +1,15 @@
 ---
 const steps = [
   {
+    icon: "appstore",
+    title: "Mac App Store",
+    body:
+      "The easiest way. One click, automatic updates, no dragging required.",
+    link: { href: "https://apps.apple.com/xk/app/breaks-pomodoro-timer/id6766944942?mt=12", label: "Get on the Mac App Store →" },
+  },
+  {
     icon: "download",
-    title: "Download the DMG",
+    title: "Or download the DMG",
     body:
       "Grab Breaks.dmg from the latest GitHub release. Notarized, universal binary, under two megabytes.",
     link: { href: "https://github.com/GjinPrelvukaj/Breaks/releases/latest", label: "Latest release →" },
@@ -18,24 +25,16 @@ const steps = [
     body:
       "Open Breaks from Applications. No right-click required — the build is notarized and Gatekeeper clears it automatically.",
   },
-  {
-    icon: "terminal",
-    title: "Or install via Homebrew",
-    body:
-      "Homebrew Cask support is coming. Watch the repo for the announcement.",
-    code: "brew install --cask breaks  # coming soon",
-  },
 ];
 ---
 
 <section id="install" class="install">
   <div class="wrap">
     <header class="head">
-      <span class="eyebrow">First launch</span>
-      <h2 class="h-section">From download to running in under twenty seconds.</h2>
+      <span class="eyebrow">Get Breaks</span>
+      <h2 class="h-section">Now on the Mac App Store.</h2>
       <p class="lede">
-        Notarized and signed. Download the DMG, drag to Applications, launch. No prompts, no friction.
-        Also available on the Mac App Store — in review.
+        Free. Notarized. One click from the App Store, or grab the DMG directly from GitHub. No account, no subscription.
       </p>
     </header>
 
@@ -46,6 +45,11 @@ const steps = [
             <header class="step-head">
               <span class="step-num">0{i + 1}</span>
               <span class="ico" aria-hidden="true">
+                {s.icon === "appstore" && (
+                  <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <path d="M10.98 2.58L8 7.5 5.02 2.58A.75.75 0 004.15 2H2.5a.5.5 0 00-.43.75l3.96 6.86L2.07 16h1.86l4.07-7.06L12.07 16h1.86l-4-6.39 3.96-6.86A.5.5 0 0013.5 2h-1.65a.75.75 0 00-.87.58z"/>
+                  </svg>
+                )}
                 {s.icon === "download" && (
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
                     <path d="M12 4v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round" />
